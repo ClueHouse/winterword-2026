@@ -4,6 +4,14 @@ import { WW_CONFIG } from "./config.js";
 
 console.log("Engine loaded");
 
+// --- BOOTSTRAP FETCH ---------------------------------------------------------
+
+fetch("/bootstrap", { method: "POST" })
+  .then(r => r.json())
+  .then(data => {
+    start(data);
+  });
+
 // Utility: fetch JSON with error handling
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -12,11 +20,9 @@ async function loadJSON(path) {
 }
 
 // Step 1: load bootstrap
-async function loadBootstrap() {
-  console.log("Loading bootstrap…");
-  const data = await loadJSON(WW_CONFIG.api.bootstrap);
-  console.log("Bootstrap OK:", data);
-  return data;
+async function loadBootstrap(boot) {
+  console.log("Bootstrap OK:", boot);
+  return boot;
 }
 
 // Step 2: load game definition
@@ -46,11 +52,12 @@ async function loadAnswers(game) {
 
 // --- MAIN ENGINE FLOW --------------------------------------------------------
 
-async function start() {
+async function start(boot) {
   try {
-    const slug = "testslug";
+    await loadBootstrap(boot);
 
-    await loadBootstrap();
+    const slug = boot.slug;
+
     const game = await loadGame(slug);
     await loadClues(game);
     await loadAnswers(game);
@@ -60,5 +67,3 @@ async function start() {
     console.error("ENGINE ERROR:", err);
   }
 }
-
-start();
