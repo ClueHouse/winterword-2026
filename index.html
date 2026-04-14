@@ -1213,8 +1213,9 @@ body.ww-welcome-leaving #wwWelcomePage{
     }
 
     // Load the engine script returned by the bootstrap API
-    const script = document.createElement("script");
-    script.src = data.entry + "?v=" + Date.now();
+const script = document.createElement("script");
+script.type = "module";
+script.src = data.entry + "?v=" + Date.now();
 
     script.onload = () => console.log("Engine loaded");
     script.onerror = () => {
@@ -1231,5 +1232,6 @@ body.ww-welcome-leaving #wwWelcomePage{
 
 </body>
 </html> 
+
 
 
