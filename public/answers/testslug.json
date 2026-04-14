@@ -1,1 +1,13 @@
-[]
+{
+  "slug": "testslug",
+  "title": "WinterWord 2026",
+  "description": "A season-long WinterWord test run.",
+  "clues": "/clues/testslug.json",
+  "answers": "/answers/testslug.json",
+  "assets_base": "/assets/testslug/",
+  "settings": {
+    "show_progress": true,
+    "show_leaderboard": false,
+    "show_lifeline": true
+  }
+}
