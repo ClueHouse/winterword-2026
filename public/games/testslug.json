@@ -2,8 +2,8 @@
   "slug": "testslug",
   "title": "WinterWord 2026",
   "description": "A season-long WinterWord test run.",
-  "clues_file": "/clues/testslug.json",
-  "answers_file": "/answers/testslug.json",
+  "clues": "/clues/testslug.json",
+  "answers": "/answers/testslug.json",
   "assets_base": "/assets/testslug/",
   "settings": {
     "show_progress": true,
