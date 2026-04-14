@@ -6,7 +6,7 @@ console.log("Engine loaded");
 
 // --- BOOTSTRAP FETCH ---------------------------------------------------------
 
-fetch("/bootstrap", { method: "POST" })
+fetch(WW_CONFIG.api.bootstrap, { method: "POST" })
   .then(r => r.json())
   .then(data => {
     start(data);
