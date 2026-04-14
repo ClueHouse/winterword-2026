@@ -6,4 +6,3 @@ export async function onRequestPost(context) {
     game_file: "/games/testslug.json"
   });
 }
- 
