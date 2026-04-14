@@ -1,6 +1,0 @@
-{
-  "slug": "testslug",
-  "title": "Test Game",
-  "clues": "/clues/testslug.json",
-  "answers": "/answers/testslug.json"
-}
