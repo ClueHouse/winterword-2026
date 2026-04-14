@@ -6,11 +6,12 @@ console.log("Engine loaded");
 
 // --- BOOTSTRAP FETCH ---------------------------------------------------------
 
-fetch(WW_CONFIG.api.bootstrap, { method: "POST" })
+fetch("/bootstrap", { method: "POST" })
   .then(r => r.json())
-  .then(data => {
-    start(data);
-  });
+  .then(boot => {
+    start(boot);
+  })
+  .catch(err => console.error("BOOTSTRAP ERROR:", err));
 
 // Utility: fetch JSON with error handling
 async function loadJSON(path) {
@@ -25,9 +26,9 @@ async function loadBootstrap(boot) {
   return boot;
 }
 
-// Step 2: load game definition
-async function loadGame(slug) {
-  const path = `/games/${slug}.json`;
+// Step 2: load game definition (from bootstrap)
+async function loadGame(boot) {
+  const path = boot.game_file;
   console.log("Loading game:", path);
   const game = await loadJSON(path);
   console.log("Game OK:", game);
@@ -56,9 +57,7 @@ async function start(boot) {
   try {
     await loadBootstrap(boot);
 
-    const slug = boot.slug;
-
-    const game = await loadGame(slug);
+    const game = await loadGame(boot);
     await loadClues(game);
     await loadAnswers(game);
 
