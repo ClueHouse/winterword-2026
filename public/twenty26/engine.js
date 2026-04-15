@@ -124,19 +124,19 @@ function ensureStyles() {
       --ww-rail-clue-top:#30475e;
       --ww-rail-clue-bottom:#263949;
 
-      --ww-list-sidebar-width:13.25rem;
+      --ww-list-sidebar-width:14rem;
       --ww-clue-rail-width:9.9rem;
 
-      --ww-card-stroke:rgba(255,255,255,0.10);
-      --ww-card-shadow:0 10px 24px rgba(0,0,0,0.18);
+      --ww-card-stroke:rgba(255,255,255,0.11);
+      --ww-card-shadow:0 12px 28px rgba(0,0,0,0.2);
 
-      --ww-pill-left:#0b131b;
-      --ww-pill-mid:#101821;
-      --ww-pill-right:#1f2a36;
+      --ww-pill-left:#0c141d;
+      --ww-pill-mid:#121b24;
+      --ww-pill-right:#222d39;
 
-      --ww-button-border:rgba(188,211,224,0.28);
-      --ww-button-bg:rgba(188,211,224,0.07);
-      --ww-button-bg-hover:rgba(188,211,224,0.14);
+      --ww-button-border:rgba(188,211,224,0.30);
+      --ww-button-bg:rgba(188,211,224,0.08);
+      --ww-button-bg-hover:rgba(188,211,224,0.16);
 
       --ww-accent:#d7e4ec;
       --ww-muted:#b8c9d5;
@@ -215,8 +215,8 @@ function ensureStyles() {
       align-items:stretch;
       justify-content:center;
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.012) 20%, rgba(255,255,255,0) 58%),
-        linear-gradient(180deg, rgba(44,61,78,0.34) 0%, rgba(24,34,45,0.18) 100%);
+        linear-gradient(180deg, rgba(255,255,255,0.028) 0%, rgba(255,255,255,0.01) 20%, rgba(255,255,255,0) 58%),
+        linear-gradient(180deg, rgba(44,61,78,0.26) 0%, rgba(24,34,45,0.12) 100%);
     }
 
     .ww-list-sidebar::after{
@@ -235,9 +235,10 @@ function ensureStyles() {
       display:flex;
       flex-direction:column;
       align-items:center;
-      justify-content:flex-start;
-      padding:2.25rem 1.1rem 2rem;
-      gap:2rem;
+      justify-content:center;
+      padding:2rem 1.1rem;
+      gap:2.4rem;
+      text-align:center;
     }
 
     .ww-list-logo{
@@ -245,13 +246,13 @@ function ensureStyles() {
       display:flex;
       align-items:center;
       justify-content:center;
-      padding-top:.2rem;
+      padding-top:.15rem;
     }
 
     .ww-list-logo img{
-      width:7.35rem;
+      width:7.8rem;
       display:block;
-      opacity:.97;
+      opacity:.98;
       filter:
         drop-shadow(0 10px 14px rgba(0,0,0,0.34))
         drop-shadow(0 2px 4px rgba(0,0,0,0.24));
@@ -262,23 +263,31 @@ function ensureStyles() {
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:1.05rem;
-      margin-top:.5rem;
+      gap:1rem;
+      margin-top:.1rem;
+      text-align:center;
+    }
+
+    .ww-list-side-divider{
+      width:40px;
+      height:1px;
+      background:rgba(255,255,255,0.14);
+      margin:.15rem 0 .1rem;
     }
 
     .ww-list-side-link{
       border:0;
       background:none;
       color:#f3f6f9;
-      font-size:.78rem;
+      font-size:.8rem;
       font-weight:900;
-      letter-spacing:.28em;
+      letter-spacing:.24em;
       text-transform:uppercase;
       cursor:pointer;
       white-space:nowrap;
-      padding:.2rem 0;
+      padding:.15rem 0;
       line-height:1.25;
-      opacity:.94;
+      opacity:.95;
       transition:transform 150ms ease, opacity 150ms ease, color 150ms ease;
     }
 
@@ -305,7 +314,7 @@ function ensureStyles() {
       min-height:0;
       overflow-y:auto;
       overflow-x:hidden;
-      padding:2.1rem 1.65rem 1.5rem 1.4rem;
+      padding:2rem 1.65rem 1.45rem 1.45rem;
     }
 
     .ww-list-scroll::-webkit-scrollbar{
@@ -318,11 +327,11 @@ function ensureStyles() {
     }
 
     .ww-list-stack{
-      width:min(820px, 100%);
+      width:min(900px, 100%);
       margin:0 auto;
       display:flex;
       flex-direction:column;
-      gap:.72rem;
+      gap:.86rem;
     }
 
     .ww-list-status{
@@ -330,7 +339,7 @@ function ensureStyles() {
       justify-content:center;
       gap:1.7rem;
       flex-wrap:wrap;
-      margin:0 0 .35rem;
+      margin:0 0 .45rem;
       color:var(--ww-accent);
       font-size:.82rem;
       font-weight:900;
@@ -342,7 +351,7 @@ function ensureStyles() {
 
     .ww-list-card{
       width:100%;
-      min-height:4.55rem;
+      min-height:5.15rem;
       border-radius:999px;
       border:1px solid var(--ww-card-stroke);
       overflow:hidden;
@@ -353,9 +362,9 @@ function ensureStyles() {
 
     .ww-list-row{
       display:grid;
-      grid-template-columns:5.35rem minmax(0,1fr) auto;
+      grid-template-columns:6.6rem minmax(0,1fr) auto;
       align-items:center;
-      min-height:4.55rem;
+      min-height:5.15rem;
       gap:0;
     }
 
@@ -369,11 +378,11 @@ function ensureStyles() {
     .ww-list-thumb img{
       position:absolute;
       inset:0 auto 0 0;
-      width:220%;
+      width:195%;
       height:100%;
       object-fit:cover;
       object-position:center center;
-      transform:translateX(-34%);
+      transform:translateX(-20%);
       display:block;
     }
 
@@ -382,9 +391,9 @@ function ensureStyles() {
       position:absolute;
       top:0;
       right:0;
-      width:56px;
+      width:62px;
       height:100%;
-      background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(11,19,27,0.94) 100%);
+      background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(12,20,29,0.9) 100%);
       pointer-events:none;
     }
 
@@ -393,8 +402,8 @@ function ensureStyles() {
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:.9rem;
-      padding:.7rem .9rem .7rem .2rem;
+      gap:1rem;
+      padding:.8rem 1rem .8rem .35rem;
     }
 
     .ww-list-copy{
@@ -402,13 +411,13 @@ function ensureStyles() {
       flex-direction:column;
       align-items:flex-start;
       justify-content:center;
-      gap:.14rem;
+      gap:.16rem;
       min-width:0;
     }
 
     .ww-kicker{
       color:var(--ww-muted);
-      font-size:.56rem;
+      font-size:.58rem;
       font-weight:900;
       letter-spacing:.24em;
       text-transform:uppercase;
@@ -417,7 +426,7 @@ function ensureStyles() {
 
     .ww-list-title{
       color:#ffffff;
-      font-size:.9rem;
+      font-size:.98rem;
       font-weight:900;
       line-height:1.05;
       text-transform:lowercase;
@@ -430,7 +439,7 @@ function ensureStyles() {
       display:flex;
       align-items:center;
       justify-content:flex-end;
-      padding-right:.72rem;
+      padding-right:.78rem;
     }
 
     .ww-open{
@@ -438,11 +447,11 @@ function ensureStyles() {
       background:var(--ww-button-bg);
       color:var(--ww-ink-strong);
       border-radius:999px;
-      padding:.58rem .92rem;
-      min-width:4.6rem;
+      padding:.7rem 1.02rem;
+      min-width:5.3rem;
       white-space:nowrap;
-      font:900 .75rem system-ui,-apple-system,"Segoe UI",sans-serif;
-      letter-spacing:.08em;
+      font:900 .77rem system-ui,-apple-system,"Segoe UI",sans-serif;
+      letter-spacing:.06em;
       cursor:pointer;
       transition:transform 160ms ease, background 160ms ease, border-color 160ms ease;
     }
@@ -618,7 +627,7 @@ function ensureStyles() {
       }
 
       .ww-list-row{
-        grid-template-columns:4.8rem minmax(0,1fr) auto;
+        grid-template-columns:5.9rem minmax(0,1fr) auto;
       }
     }
 
@@ -644,7 +653,7 @@ function ensureStyles() {
 
       .ww-list-stack{
         width:100%;
-        gap:.68rem;
+        gap:.74rem;
       }
 
       .ww-list-card{
@@ -652,8 +661,12 @@ function ensureStyles() {
       }
 
       .ww-list-row{
-        grid-template-columns:4.5rem minmax(0,1fr);
-        min-height:4.5rem;
+        grid-template-columns:5.1rem minmax(0,1fr);
+        min-height:4.95rem;
+      }
+
+      .ww-list-meta{
+        padding:.78rem .45rem .78rem .2rem;
       }
 
       .ww-open-wrap{
@@ -662,7 +675,7 @@ function ensureStyles() {
 
       .ww-open{
         min-width:auto;
-        padding:.54rem .78rem;
+        padding:.62rem .82rem;
       }
 
       .ww-clue-frame{
@@ -691,22 +704,28 @@ function ensureStyles() {
       }
 
       .ww-list-row{
-        grid-template-columns:4.15rem minmax(0,1fr);
+        grid-template-columns:4.6rem minmax(0,1fr);
+        min-height:4.6rem;
+      }
+
+      .ww-list-thumb img{
+        width:175%;
+        transform:translateX(-11%);
       }
 
       .ww-list-meta{
         gap:.55rem;
-        padding:.62rem .3rem .62rem .1rem;
+        padding:.68rem .32rem .68rem .16rem;
       }
 
       .ww-list-title{
-        font-size:.84rem;
+        font-size:.88rem;
       }
 
       .ww-open{
-        font-size:.7rem;
+        font-size:.71rem;
         letter-spacing:.05em;
-        padding:.52rem .7rem;
+        padding:.56rem .72rem;
       }
     }
   `;
@@ -760,9 +779,8 @@ function renderClueList(game, clues) {
               </div>
 
               <nav class="ww-list-side-nav" aria-label="Clue list navigation">
+                <div class="ww-list-side-divider"></div>
                 <button type="button" class="ww-list-side-link">BASE STATION</button>
-                <button type="button" class="ww-list-side-link" data-active="true">CLUES</button>
-                <button type="button" class="ww-list-side-link">LIFELINE</button>
               </nav>
             </div>
           </aside>
