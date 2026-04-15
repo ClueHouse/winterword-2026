@@ -71,13 +71,13 @@ function ensureStyles() {
       --ww-bg-1:#050a11;
       --ww-bg-2:#0a1521;
       --ww-bg-3:#102131;
-      --ww-rail-bg:#30485f;
+      --ww-rail-bg:#334b63;
       --ww-ink-strong:#ecf3fa;
       --ww-accent:#9dc3d6;
       --ww-card-border:rgba(255,255,255,0.16);
       --ww-shell-stroke:rgba(255,255,255,0.06);
       --ww-overlay:rgba(0,0,0,0.92);
-      --ww-left-narrow:7.4rem;
+      --ww-left-narrow:7.9rem;
     }
 
     *{box-sizing:border-box;}
@@ -118,7 +118,7 @@ function ensureStyles() {
     .ww-content{
       min-height:100vh;
       display:grid;
-      grid-template-columns:6.6rem minmax(0,1fr);
+      grid-template-columns:6.8rem minmax(0,1fr);
       gap:1.9rem;
       padding:1.9rem 2.2rem;
       overflow:hidden;
@@ -149,8 +149,8 @@ function ensureStyles() {
       width:8.9rem;
       display:block;
       filter:
-        drop-shadow(0 8px 12px rgba(0,0,0,0.35))
-        drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+        drop-shadow(0 10px 14px rgba(0,0,0,0.34))
+        drop-shadow(0 3px 4px rgba(0,0,0,0.22));
     }
 
     .ww-side-divider{
@@ -318,7 +318,6 @@ function ensureStyles() {
     .ww-open:focus-visible,
     .ww-side-logo:focus-visible,
     .ww-mini-textlink:focus-visible,
-    .ww-back-btn:focus-visible,
     .ww-clue-still:focus-visible,
     .ww-overlay-close:focus-visible{
       outline:2px solid rgba(255,255,255,0.75);
@@ -345,7 +344,7 @@ function ensureStyles() {
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:1.2rem;
+      gap:1.5rem;
     }
 
     .ww-mini-logo{
@@ -353,59 +352,62 @@ function ensureStyles() {
       width:100%;
       display:flex;
       justify-content:center;
+      margin-top:-0.2rem;
     }
 
     .ww-mini-logo::before{
       content:"";
       position:absolute;
-      inset:-24px;
+      inset:-18px;
       border-radius:50%;
       background:radial-gradient(
         circle,
         rgba(255,255,255,0.18) 0%,
-        rgba(255,255,255,0.08) 40%,
-        rgba(255,255,255,0.00) 70%
+        rgba(255,255,255,0.08) 42%,
+        rgba(255,255,255,0.00) 72%
       );
-      filter:blur(10px);
+      filter:blur(8px);
       z-index:0;
     }
 
     .ww-mini-logo img{
-      width:8.6rem;
+      width:7.4rem;
       position:relative;
       z-index:1;
       display:block;
       filter:
-        drop-shadow(0 8px 12px rgba(0,0,0,0.35))
-        drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+        drop-shadow(0 9px 12px rgba(0,0,0,0.34))
+        drop-shadow(0 2px 4px rgba(0,0,0,0.24));
     }
 
     .ww-mini-textnav{
       display:flex;
       flex-direction:column;
-      gap:.9rem;
+      gap:.72rem;
       align-items:center;
+      margin-top:.55rem;
     }
 
     .ww-mini-textlink{
       text-decoration:none;
       font-weight:900;
-      font-size:.78rem;
-      letter-spacing:.28em;
+      font-size:.72rem;
+      letter-spacing:.34em;
       text-transform:uppercase;
-      color:#e3edf5;
-      opacity:.92;
+      color:#f1f6fa;
+      opacity:.96;
       display:inline-block;
-      transition:transform 150ms ease, color 150ms ease;
+      transition:transform 150ms ease, color 150ms ease, opacity 150ms ease;
       background:none;
       border:0;
       cursor:pointer;
       padding:0;
+      line-height:1.45;
     }
 
     .ww-mini-textlink:hover{
       color:#ffffff;
-      transform:scale(1.14);
+      transform:scale(1.08);
     }
 
     .ww-mini-textlink[data-active="true"]{
@@ -420,13 +422,12 @@ function ensureStyles() {
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:2rem 2.4rem;
+      padding:0;
     }
 
     .ww-stage{
       width:100%;
       height:100%;
-      border-radius:1.4rem;
       position:relative;
       overflow:hidden;
       background:
@@ -448,8 +449,8 @@ function ensureStyles() {
     }
 
     .ww-clue-still{
-      width:min(88vw, 1380px);
-      max-height:88vh;
+      width:min(90vw, 1400px);
+      max-height:90vh;
       object-fit:contain;
       cursor:pointer;
       border:0;
@@ -460,7 +461,7 @@ function ensureStyles() {
 
     .ww-clue-still img{
       width:100%;
-      max-height:88vh;
+      max-height:90vh;
       object-fit:contain;
       display:block;
     }
@@ -519,52 +520,6 @@ function ensureStyles() {
       padding:.55rem .85rem;
       cursor:pointer;
       font-weight:700;
-    }
-
-    .ww-back-btn{
-      position:absolute;
-      top:22px;
-      left:22px;
-      z-index:25;
-      border:1px solid rgba(255,255,255,0.24);
-      background:rgba(0,0,0,0.45);
-      color:#fff;
-      border-radius:999px;
-      padding:.7rem 1rem;
-      cursor:pointer;
-      font-weight:800;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:.72rem;
-    }
-
-    .ww-clue-caption{
-      position:absolute;
-      bottom:28px;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:18;
-      text-align:center;
-      display:flex;
-      flex-direction:column;
-      gap:.35rem;
-      align-items:center;
-      pointer-events:none;
-    }
-
-    .ww-clue-caption .ww-kicker{
-      font-size:.68rem;
-      letter-spacing:.28em;
-      color:#b7d3e2;
-    }
-
-    .ww-clue-caption .ww-caption-title{
-      color:#ffffff;
-      font-size:1.05rem;
-      font-weight:900;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      text-shadow:0 2px 10px rgba(0,0,0,0.55);
     }
 
     .ww-empty{
@@ -634,20 +589,6 @@ function ensureStyles() {
 
       .ww-right{
         min-height:65vh;
-        padding:1rem;
-      }
-
-      .ww-stage{
-        border-radius:1rem;
-      }
-
-      .ww-back-btn{
-        top:14px;
-        left:14px;
-      }
-
-      .ww-clue-caption{
-        bottom:20px;
       }
     }
   `;
@@ -749,10 +690,10 @@ function renderClueList(game, clues) {
       <div class="ww-shell">
         <div class="ww-content">
           <div class="ww-side">
-            <button type="button" class="ww-side-logo" data-go-list aria-label="Clue List">
+            <button type="button" class="ww-side-logo" data-go-list aria-label="Base Station">
               <img src="${logoUrl()}" alt="WinterWord">
               <div class="ww-side-divider"></div>
-              <div class="ww-side-label">CLUE LIST</div>
+              <div class="ww-side-label">BASE STATION</div>
             </button>
           </div>
 
@@ -803,7 +744,6 @@ function renderSingleClue(game, clues, clueId) {
 
   const clueIdNum = Number(clue.id);
   const imageUrl = clueImageUrl(clueIdNum);
-  const clueTitle = clue.title || `Clue ${clueIdNum}`;
 
   app.innerHTML = `
     <div class="ww-page">
@@ -816,25 +756,19 @@ function renderSingleClue(game, clues, clueId) {
               </div>
 
               <nav class="ww-mini-textnav">
-                <button type="button" class="ww-mini-textlink" data-go-list>Clues</button>
-                <button type="button" class="ww-mini-textlink" data-go-list>Back</button>
+                <button type="button" class="ww-mini-textlink">BASE</button>
+                <button type="button" class="ww-mini-textlink" data-go-list data-active="true">CLUES</button>
+                <button type="button" class="ww-mini-textlink">LIFE</button>
               </nav>
             </div>
           </aside>
 
           <main class="ww-right">
             <div class="ww-stage">
-              <button type="button" class="ww-back-btn" data-go-list>← Back</button>
-
               <div class="ww-clue-stage">
-                <button type="button" class="ww-clue-still" data-open-overlay aria-label="Open ${escapeHtml(clueTitle)}">
-                  <img src="${imageUrl}" alt="${escapeHtml(clueTitle)}">
+                <button type="button" class="ww-clue-still" data-open-overlay aria-label="Open clue ${clueIdNum}">
+                  <img src="${imageUrl}" alt="Clue ${clueIdNum}">
                 </button>
-              </div>
-
-              <div class="ww-clue-caption">
-                <div class="ww-kicker">CLUE</div>
-                <div class="ww-caption-title">${escapeHtml(clueDisplayName(clueIdNum))}</div>
               </div>
 
               <div class="ww-overlay" id="wwOverlay">
@@ -842,7 +776,7 @@ function renderSingleClue(game, clues, clueId) {
                 <div class="ww-modal">
                   <div class="ww-modal-inner">
                     <button type="button" class="ww-overlay-close" data-close-overlay>Close</button>
-                    <img src="${imageUrl}" alt="${escapeHtml(clueTitle)}">
+                    <img src="${imageUrl}" alt="Clue ${clueIdNum}">
                   </div>
                 </div>
               </div>
