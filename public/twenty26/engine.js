@@ -1,10 +1,12 @@
 import { WW_CONFIG } from "./config.js";
 
-const ASSET_ROOT = "/assets/winterword";
-const IMAGE_BASE = `${ASSET_ROOT}/images`;
-const AUDIO_BASE = `${ASSET_ROOT}/audio`;
-const VIDEO_BASE = `${ASSET_ROOT}/videos`;
-const API_BASE = `${ASSET_ROOT}/api`;
+const REPO_ROOT = "winterword";
+const PUBLIC_ROOT = "/assets/winterword";
+const IMAGE_BASE = `${PUBLIC_ROOT}/images`;
+const AUDIO_BASE = `${PUBLIC_ROOT}/audio`;
+const VIDEO_BASE = `${PUBLIC_ROOT}/videos`;
+const API_BASE = `${PUBLIC_ROOT}/api`;
+const DATA_BASE = `${PUBLIC_ROOT}/data`;
 const APP_STYLE_ID = "ww-engine-styles";
 
 const WW = {
@@ -13,53 +15,237 @@ const WW = {
   clues: [],
   answers: [],
   currentView: { type: "list" },
+  repoRoot: REPO_ROOT,
   paths: {
-    assets: ASSET_ROOT,
+    publicRoot: PUBLIC_ROOT,
     images: IMAGE_BASE,
     audio: AUDIO_BASE,
     videos: VIDEO_BASE,
-    api: API_BASE
+    api: API_BASE,
+    data: DATA_BASE
   }
 };
 
 console.log("Engine loaded");
 
-fetch(`${API_BASE}/bootstrap`, { method: "POST" })
-  .then((r) => r.json())
-  .then((boot) => {
-    start(boot);
-  })
-  .catch((err) => console.error("BOOTSTRAP ERROR:", err));
+startBootstrap();
 
-async function loadJSON(path) {
-  const res = await fetch(path);
-  if (!res.ok) throw new Error("Failed to load " + path);
+async function startBootstrap() {
+  try {
+    const boot = await fetchJSON(`${API_BASE}/bootstrap`, { method: "POST" });
+    await start(boot);
+  } catch (err) {
+    console.error("BOOTSTRAP ERROR:", err);
+    showError(err && err.message ? err.message : "Bootstrap failed");
+  }
+}
+
+function isAbsoluteUrl(value) {
+  return /^https?:\/\//i.test(String(value || ""));
+}
+
+function stripLeadingSlash(value) {
+  return String(value || "").replace(/^\/+/, "");
+}
+
+function stripRepoRoot(value) {
+  return String(value || "")
+    .replace(/^\/?winterword\/?/i, "")
+    .replace(/^\/+/, "");
+}
+
+function joinPath(base, tail) {
+  return `${String(base).replace(/\/+$/, "")}/${String(tail).replace(/^\/+/, "")}`;
+}
+
+function normalizeAssetPath(inputPath, fallbackType) {
+  const raw = String(inputPath || "").trim();
+  if (!raw) return raw;
+  if (isAbsoluteUrl(raw)) return raw;
+
+  const clean = stripRepoRoot(raw);
+  const lower = clean.toLowerCase();
+
+  if (lower.startsWith("assets/winterword/")) {
+    return `/${clean}`;
+  }
+
+  if (lower.startsWith("images/")) {
+    return joinPath(IMAGE_BASE, clean.slice("images/".length));
+  }
+
+  if (lower.startsWith("audio/")) {
+    return joinPath(AUDIO_BASE, clean.slice("audio/".length));
+  }
+
+  if (lower.startsWith("videos/")) {
+    return joinPath(VIDEO_BASE, clean.slice("videos/".length));
+  }
+
+  if (lower.startsWith("api/")) {
+    return joinPath(API_BASE, clean.slice("api/".length));
+  }
+
+  if (lower.startsWith("games/")) {
+    return joinPath(joinPath(DATA_BASE, "games"), clean.slice("games/".length));
+  }
+
+  if (lower.startsWith("clues/")) {
+    return joinPath(joinPath(DATA_BASE, "clues"), clean.slice("clues/".length));
+  }
+
+  if (lower.startsWith("answers/")) {
+    return joinPath(joinPath(DATA_BASE, "answers"), clean.slice("answers/".length));
+  }
+
+  if (lower.startsWith("/images/")) {
+    return joinPath(IMAGE_BASE, clean.slice("images/".length));
+  }
+
+  if (lower.startsWith("/audio/")) {
+    return joinPath(AUDIO_BASE, clean.slice("audio/".length));
+  }
+
+  if (lower.startsWith("/videos/")) {
+    return joinPath(VIDEO_BASE, clean.slice("videos/".length));
+  }
+
+  if (lower.startsWith("/api/")) {
+    return joinPath(API_BASE, clean.slice("api/".length));
+  }
+
+  if (lower.startsWith("/games/")) {
+    return joinPath(joinPath(DATA_BASE, "games"), clean.slice("games/".length));
+  }
+
+  if (lower.startsWith("/clues/")) {
+    return joinPath(joinPath(DATA_BASE, "clues"), clean.slice("clues/".length));
+  }
+
+  if (lower.startsWith("/answers/")) {
+    return joinPath(joinPath(DATA_BASE, "answers"), clean.slice("answers/".length));
+  }
+
+  if (fallbackType === "image") {
+    return joinPath(IMAGE_BASE, stripLeadingSlash(clean));
+  }
+
+  if (fallbackType === "audio") {
+    return joinPath(AUDIO_BASE, stripLeadingSlash(clean));
+  }
+
+  if (fallbackType === "video") {
+    return joinPath(VIDEO_BASE, stripLeadingSlash(clean));
+  }
+
+  if (fallbackType === "api") {
+    return joinPath(API_BASE, stripLeadingSlash(clean));
+  }
+
+  if (fallbackType === "game") {
+    return joinPath(joinPath(DATA_BASE, "games"), stripLeadingSlash(clean));
+  }
+
+  if (fallbackType === "clue-data") {
+    return joinPath(joinPath(DATA_BASE, "clues"), stripLeadingSlash(clean));
+  }
+
+  if (fallbackType === "answer-data") {
+    return joinPath(joinPath(DATA_BASE, "answers"), stripLeadingSlash(clean));
+  }
+
+  return `/${stripLeadingSlash(clean)}`;
+}
+
+function normalizeBoot(boot) {
+  if (!boot || typeof boot !== "object") return boot;
+
+  const normalized = { ...boot };
+
+  if (normalized.game_file) {
+    normalized.game_file = normalizeAssetPath(normalized.game_file, "game");
+  }
+
+  if (normalized.api_endpoint) {
+    normalized.api_endpoint = normalizeAssetPath(normalized.api_endpoint, "api");
+  }
+
+  if (normalized.audio_base) {
+    normalized.audio_base = normalizeAssetPath(normalized.audio_base, "audio");
+  }
+
+  if (normalized.video_base) {
+    normalized.video_base = normalizeAssetPath(normalized.video_base, "video");
+  }
+
+  if (normalized.image_base) {
+    normalized.image_base = normalizeAssetPath(normalized.image_base, "image");
+  }
+
+  return normalized;
+}
+
+function normalizeGame(game) {
+  if (!game || typeof game !== "object") return game;
+
+  const normalized = { ...game };
+
+  if (normalized.clues) {
+    normalized.clues = normalizeAssetPath(normalized.clues, "clue-data");
+  }
+
+  if (normalized.answers) {
+    normalized.answers = normalizeAssetPath(normalized.answers, "answer-data");
+  }
+
+  if (normalized.image) {
+    normalized.image = normalizeAssetPath(normalized.image, "image");
+  }
+
+  if (normalized.audio) {
+    normalized.audio = normalizeAssetPath(normalized.audio, "audio");
+  }
+
+  if (normalized.video) {
+    normalized.video = normalizeAssetPath(normalized.video, "video");
+  }
+
+  return normalized;
+}
+
+async function fetchJSON(path, options) {
+  const resolvedPath = normalizeAssetPath(path);
+  const res = await fetch(resolvedPath, options);
+  if (!res.ok) throw new Error("Failed to load " + resolvedPath);
   return await res.json();
 }
 
 async function loadBootstrap(boot) {
-  console.log("Bootstrap OK:", boot);
-  return boot;
+  const normalized = normalizeBoot(boot);
+  console.log("Bootstrap OK:", normalized);
+  return normalized;
 }
 
 async function loadGame(boot) {
-  const path = boot.game_file;
+  const path = normalizeAssetPath(boot.game_file, "game");
   console.log("Loading game:", path);
-  const game = await loadJSON(path);
+  const game = normalizeGame(await fetchJSON(path));
   console.log("Game OK:", game);
   return game;
 }
 
 async function loadClues(game) {
-  console.log("Loading clues:", game.clues);
-  const clues = await loadJSON(game.clues);
+  const path = normalizeAssetPath(game.clues, "clue-data");
+  console.log("Loading clues:", path);
+  const clues = await fetchJSON(path);
   console.log("Clues OK:", clues);
   return clues;
 }
 
 async function loadAnswers(game) {
-  console.log("Loading answers:", game.answers);
-  const answers = await loadJSON(game.answers);
+  const path = normalizeAssetPath(game.answers, "answer-data");
+  console.log("Loading answers:", path);
+  const answers = await fetchJSON(path);
   console.log("Answers OK:", answers);
   return answers;
 }
@@ -201,7 +387,6 @@ function ensureStyles() {
       padding:1.25rem;
     }
 
-    /* CLUE LIST */
     .ww-list-frame{
       width:min(1140px, calc(100vw - 2.5rem));
       height:min(92vh, 810px);
@@ -480,7 +665,6 @@ function ensureStyles() {
       outline-offset:3px;
     }
 
-    /* CLUE PAGE */
     .ww-clue-shell{
       min-height:100vh;
       width:100%;
@@ -870,13 +1054,12 @@ function renderSingleClue(game, clues, clueId) {
 
 async function start(boot) {
   try {
-    await loadBootstrap(boot);
-
-    const game = await loadGame(boot);
+    const normalizedBoot = await loadBootstrap(boot);
+    const game = await loadGame(normalizedBoot);
     const clues = await loadClues(game);
     const answers = await loadAnswers(game);
 
-    WW.boot = boot;
+    WW.boot = normalizedBoot;
     WW.game = game;
     WW.clues = clues;
     WW.answers = answers;
