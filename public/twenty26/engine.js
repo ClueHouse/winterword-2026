@@ -67,17 +67,19 @@ function ensureStyles() {
   style.textContent = `
     :root{
       --ww-ink:#dce5ec;
-      --ww-muted:rgba(220,229,236,0.72);
-      --ww-bg-1:#050a11;
-      --ww-bg-2:#0a1521;
-      --ww-bg-3:#102131;
-      --ww-rail-bg:#334b63;
       --ww-ink-strong:#ecf3fa;
+      --ww-muted:rgba(220,229,236,0.72);
+      --ww-bg-1:#06101b;
+      --ww-bg-2:#0a1522;
+      --ww-bg-3:#102133;
+      --ww-rail-bg:#2d4255;
+      --ww-rail-bg-dark:#27394a;
       --ww-accent:#9dc3d6;
-      --ww-card-border:rgba(255,255,255,0.16);
-      --ww-shell-stroke:rgba(255,255,255,0.06);
-      --ww-overlay:rgba(0,0,0,0.92);
-      --ww-left-narrow:7.9rem;
+      --ww-card-border:rgba(255,255,255,0.14);
+      --ww-shell-stroke:rgba(255,255,255,0.05);
+      --ww-panel-bg:#02060c;
+      --ww-left-list:8.2rem;
+      --ww-left-clue:9.2rem;
     }
 
     *{box-sizing:border-box;}
@@ -94,7 +96,7 @@ function ensureStyles() {
       color:var(--ww-ink);
       background:
         radial-gradient(1200px 700px at 18% 18%, rgba(255,255,255,0.035), transparent 60%),
-        radial-gradient(980px 560px at 82% 22%, rgba(224,182,182,0.06), transparent 58%),
+        radial-gradient(980px 560px at 82% 22%, rgba(224,182,182,0.055), transparent 58%),
         linear-gradient(135deg, var(--ww-bg-1) 0%, var(--ww-bg-2) 48%, var(--ww-bg-3) 100%);
     }
 
@@ -104,99 +106,120 @@ function ensureStyles() {
 
     .ww-page{
       min-height:100vh;
-      padding:0;
+      width:100%;
       overflow:hidden;
+    }
+
+    .ww-empty{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+      text-align:center;
+      color:var(--ww-ink-strong);
+      font-weight:700;
+    }
+
+    .ww-sr-only{
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
     }
 
     .ww-shell{
+      min-height:100vh;
       width:100%;
-      min-height:100vh;
-      overflow:hidden;
-      background:transparent;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:1.8rem;
     }
 
-    .ww-content{
-      min-height:100vh;
+    .ww-list-frame{
+      width:min(1320px, calc(100vw - 3.6rem));
+      height:min(92vh, 860px);
+      border-radius:1.85rem;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.006) 30%, rgba(0,0,0,0) 56%),
+        radial-gradient(circle at center, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.58) 76%, rgba(0,0,0,0.84) 100%),
+        var(--ww-panel-bg);
+      box-shadow:
+        inset 0 0 0 1px var(--ww-shell-stroke),
+        inset 0 0 120px rgba(0,0,0,0.56),
+        inset 0 0 220px rgba(0,0,0,0.34);
       display:grid;
-      grid-template-columns:6.8rem minmax(0,1fr);
-      gap:1.9rem;
-      padding:1.9rem 2.2rem;
-      overflow:hidden;
+      grid-template-columns:var(--ww-left-list) minmax(0,1fr);
     }
 
-    .ww-side{
+    .ww-list-rail{
+      background:var(--ww-rail-bg);
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:1rem;
+      gap:1.25rem;
+      padding:1.4rem 0.8rem;
+      box-shadow:inset -1px 0 0 rgba(255,255,255,0.06);
     }
 
-    .ww-side-logo{
+    .ww-list-rail-logo{
       display:flex;
-      flex-direction:column;
       align-items:center;
-      gap:.95rem;
-      text-decoration:none;
-      background:none;
-      border:0;
-      padding:0;
-      cursor:pointer;
-      color:inherit;
+      justify-content:center;
     }
 
-    .ww-side-logo img{
-      width:8.9rem;
+    .ww-list-rail-logo img{
+      width:7.25rem;
       display:block;
       filter:
         drop-shadow(0 10px 14px rgba(0,0,0,0.34))
-        drop-shadow(0 3px 4px rgba(0,0,0,0.22));
+        drop-shadow(0 3px 4px rgba(0,0,0,0.24));
     }
 
-    .ww-side-divider{
+    .ww-list-rail-divider{
       width:42px;
       height:1px;
       background:rgba(255,255,255,0.18);
     }
 
-    .ww-side-label{
-      font-size:.76rem;
+    .ww-list-rail-link{
+      background:none;
+      border:0;
+      padding:0;
+      margin:0;
+      color:#ffffff;
+      font-weight:900;
+      font-size:.78rem;
       letter-spacing:.22em;
       text-transform:uppercase;
-      font-weight:900;
-      color:#ffffff;
+      cursor:pointer;
       white-space:nowrap;
     }
 
-    .ww-main{
-      height:100vh;
+    .ww-list-main{
+      min-width:0;
+      min-height:0;
       display:flex;
+      align-items:stretch;
+      justify-content:center;
+      padding:0;
       overflow:hidden;
-      align-items:center;
-    }
-
-    .ww-stage-list{
-      width:100%;
-      height:calc(100vh - 3.8rem);
-      border-radius:1.55rem;
-      overflow:hidden;
-      background:
-        radial-gradient(circle at center, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.008) 28%, rgba(0,0,0,0) 54%),
-        radial-gradient(circle at center, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.60) 76%, rgba(0,0,0,0.85) 100%),
-        #02060c;
-      box-shadow:
-        inset 0 0 0 1px var(--ww-shell-stroke),
-        inset 0 0 120px rgba(0,0,0,0.58),
-        inset 0 0 220px rgba(0,0,0,0.36);
-      display:flex;
-      flex-direction:column;
     }
 
     .ww-list-scroll{
-      flex:1;
+      width:100%;
+      height:100%;
       overflow-y:auto;
       overflow-x:hidden;
-      padding:3rem 1.8rem 2rem;
+      padding:3rem 2rem 2.2rem;
     }
 
     .ww-list-scroll::-webkit-scrollbar{
@@ -204,91 +227,106 @@ function ensureStyles() {
     }
 
     .ww-list-scroll::-webkit-scrollbar-thumb{
-      background:rgba(255,255,255,0.14);
+      background:rgba(255,255,255,0.16);
       border-radius:999px;
     }
 
-    .ww-cllist{
-      width:min(980px,100%);
+    .ww-list-stack{
+      width:min(900px, 100%);
       margin:0 auto;
       display:flex;
       flex-direction:column;
-      gap:1.55rem;
+      gap:1.45rem;
     }
 
-    .ww-status{
-      width:min(900px,100%);
-      margin:0 auto .85rem;
+    .ww-list-status{
       display:flex;
       justify-content:center;
       gap:2rem;
-      font-size:1rem;
-      font-weight:950;
-      letter-spacing:.20em;
-      text-transform:uppercase;
-      color:var(--ww-ink-strong);
-      text-align:center;
       flex-wrap:wrap;
+      margin:0 0 1rem;
+      color:var(--ww-ink-strong);
+      font-size:.98rem;
+      font-weight:950;
+      letter-spacing:.21em;
+      text-transform:uppercase;
+      text-align:center;
     }
 
-    .ww-banner{
-      width:min(900px,100%);
-      margin:0 auto;
+    .ww-list-card{
+      width:100%;
+      min-height:7.7rem;
       border-radius:2rem;
       border:1px solid var(--ww-card-border);
       overflow:hidden;
-      background:linear-gradient(90deg, rgba(10,18,27,0.92) 0%, rgba(14,22,32,0.92) 58%, rgba(36,45,57,0.92) 100%);
+      background:linear-gradient(90deg, rgba(10,18,27,0.92) 0%, rgba(13,22,32,0.92) 58%, rgba(36,45,57,0.92) 100%);
       box-shadow:0 18px 42px rgba(0,0,0,0.24);
     }
 
-    .ww-clrow{
+    .ww-list-row{
       display:flex;
-      min-height:7.55rem;
+      min-height:7.7rem;
     }
 
-    .ww-img{
-      width:62%;
+    .ww-list-thumb{
+      width:33%;
+      min-width:33%;
+      position:relative;
       overflow:hidden;
       background:#000;
     }
 
-    .ww-img img{
+    .ww-list-thumb img{
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
     }
 
-    .ww-meta{
-      width:38%;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:1.1rem 1.35rem;
-      border-left:1px solid rgba(255,255,255,0.10);
-      gap:1rem;
-      background:linear-gradient(90deg, rgba(44,52,65,0.45) 0%, rgba(28,37,48,0.38) 100%);
+    .ww-list-thumb::after{
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:24%;
+      height:100%;
+      pointer-events:none;
+      background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(12,18,27,0.72) 100%);
     }
 
-    .ww-meta-copy{
+    .ww-list-meta{
+      width:67%;
+      min-width:67%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:1.2rem 1.35rem 1.2rem 1.2rem;
+      background:linear-gradient(90deg, rgba(35,44,55,0.56) 0%, rgba(28,37,48,0.42) 100%);
+    }
+
+    .ww-list-copy{
       display:flex;
       flex-direction:column;
+      align-items:flex-start;
       gap:.38rem;
       min-width:0;
-      align-items:flex-start;
     }
 
     .ww-kicker{
+      color:#c7dfeb;
       font-size:.68rem;
+      font-weight:900;
       letter-spacing:.22em;
       text-transform:uppercase;
-      color:#c7dfeb;
-      font-weight:900;
+      line-height:1;
     }
 
-    .ww-num{
-      font:900 1.05rem/1 system-ui,-apple-system,"Segoe UI",sans-serif;
+    .ww-list-title{
       color:#ffffff;
+      font-size:1.05rem;
+      font-weight:900;
+      line-height:1;
       text-transform:lowercase;
       text-decoration:underline;
       text-decoration-thickness:1px;
@@ -296,17 +334,17 @@ function ensureStyles() {
     }
 
     .ww-open{
-      padding:.95rem 1.22rem;
-      border-radius:1rem;
       border:1px solid rgba(157,195,214,0.38);
       background:rgba(157,195,214,0.12);
       color:var(--ww-ink-strong);
+      border-radius:1rem;
+      padding:.92rem 1.2rem;
+      min-width:5.5rem;
+      white-space:nowrap;
       font:900 .88rem system-ui,-apple-system,"Segoe UI",sans-serif;
       letter-spacing:.04em;
-      white-space:nowrap;
       cursor:pointer;
       transition:transform 160ms ease, background 160ms ease, border-color 160ms ease;
-      min-width:5.4rem;
     }
 
     .ww-open:hover{
@@ -316,35 +354,65 @@ function ensureStyles() {
     }
 
     .ww-open:focus-visible,
-    .ww-side-logo:focus-visible,
-    .ww-mini-textlink:focus-visible,
-    .ww-clue-still:focus-visible,
-    .ww-overlay-close:focus-visible{
-      outline:2px solid rgba(255,255,255,0.75);
+    .ww-list-rail-link:focus-visible,
+    .ww-mini-textlink:focus-visible{
+      outline:2px solid rgba(255,255,255,0.8);
       outline-offset:3px;
     }
 
-    .ww-portal{
+    .ww-clue-shell{
+      min-height:100vh;
+      width:100%;
       display:flex;
-      height:100vh;
+      align-items:center;
+      justify-content:center;
+      padding:0;
       overflow:hidden;
       background:#000;
     }
 
-    .ww-left{
-      width:var(--ww-left-narrow);
-      background:var(--ww-rail-bg);
-      box-shadow:inset -1px 0 0 rgba(255,255,255,0.06);
-      flex:0 0 var(--ww-left-narrow);
+    .ww-clue-frame{
+      width:100%;
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:var(--ww-left-clue) minmax(0,1fr);
+      overflow:hidden;
+      background:#000;
+    }
+
+    .ww-clue-rail{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 18%),
+        linear-gradient(180deg, var(--ww-rail-bg) 0%, var(--ww-rail-bg-dark) 100%);
+      box-shadow:
+        inset -1px 0 0 rgba(255,255,255,0.06),
+        inset 0 0 40px rgba(255,255,255,0.03);
+      position:relative;
+    }
+
+    .ww-clue-rail::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.16;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size:100% 7px, 7px 100%;
+      mix-blend-mode:soft-light;
     }
 
     .ww-mini-shell{
+      position:relative;
+      z-index:1;
       height:100%;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
       gap:1.5rem;
+      padding:1.8rem 0.9rem;
     }
 
     .ww-mini-logo{
@@ -360,18 +428,13 @@ function ensureStyles() {
       position:absolute;
       inset:-18px;
       border-radius:50%;
-      background:radial-gradient(
-        circle,
-        rgba(255,255,255,0.18) 0%,
-        rgba(255,255,255,0.08) 42%,
-        rgba(255,255,255,0.00) 72%
-      );
+      background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 42%, rgba(255,255,255,0) 72%);
       filter:blur(8px);
       z-index:0;
     }
 
     .ww-mini-logo img{
-      width:7.4rem;
+      width:7.6rem;
       position:relative;
       z-index:1;
       display:block;
@@ -383,26 +446,26 @@ function ensureStyles() {
     .ww-mini-textnav{
       display:flex;
       flex-direction:column;
-      gap:.72rem;
+      gap:.76rem;
       align-items:center;
-      margin-top:.55rem;
+      margin-top:.5rem;
     }
 
     .ww-mini-textlink{
       text-decoration:none;
       font-weight:900;
-      font-size:.72rem;
-      letter-spacing:.34em;
+      font-size:.78rem;
+      letter-spacing:.31em;
       text-transform:uppercase;
       color:#f1f6fa;
-      opacity:.96;
+      opacity:.98;
       display:inline-block;
-      transition:transform 150ms ease, color 150ms ease, opacity 150ms ease;
       background:none;
       border:0;
       cursor:pointer;
       padding:0;
       line-height:1.45;
+      transition:transform 150ms ease, color 150ms ease, opacity 150ms ease;
     }
 
     .ww-mini-textlink:hover{
@@ -414,22 +477,23 @@ function ensureStyles() {
       color:#ffffff;
     }
 
-    .ww-right{
-      flex:1;
-      position:relative;
-      overflow:hidden;
-      background:#000;
+    .ww-clue-main{
+      min-width:0;
+      min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:0;
+      overflow:hidden;
+      background:#000;
     }
 
-    .ww-stage{
+    .ww-clue-stage{
       width:100%;
-      height:100%;
-      position:relative;
-      overflow:hidden;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2.8vh 2.8vw;
       background:
         radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 28%, rgba(0,0,0,0) 55%),
         radial-gradient(circle at center, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 76%, rgba(0,0,0,0.82) 100%),
@@ -439,156 +503,85 @@ function ensureStyles() {
         inset 0 0 220px rgba(0,0,0,0.38);
     }
 
-    .ww-clue-stage{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:3.2vh 3.2vw;
-    }
-
-    .ww-clue-still{
+    .ww-clue-image{
       width:min(90vw, 1400px);
       max-height:90vh;
       object-fit:contain;
-      cursor:pointer;
-      border:0;
-      background:none;
-      padding:0;
       display:block;
     }
 
-    .ww-clue-still img{
-      width:100%;
-      max-height:90vh;
-      object-fit:contain;
-      display:block;
-    }
-
-    .ww-overlay{
-      position:absolute;
-      inset:0;
-      z-index:20;
-      display:none;
-    }
-
-    .ww-overlay.is-open{
-      display:block;
-    }
-
-    .ww-veil{
-      position:absolute;
-      inset:0;
-      background:var(--ww-overlay);
-    }
-
-    .ww-modal{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:3.2vh 3.2vw;
-    }
-
-    .ww-modal-inner{
-      width:min(92vw, 1400px);
-      max-height:92vh;
-      position:relative;
-    }
-
-    .ww-modal-inner img{
-      width:100%;
-      max-height:92vh;
-      object-fit:contain;
-      display:block;
-      box-shadow:0 26px 78px rgba(0,0,0,0.65);
-      border-radius:.9rem;
-      background:#000;
-    }
-
-    .ww-overlay-close{
-      position:absolute;
-      top:14px;
-      right:14px;
-      z-index:2;
-      border:1px solid rgba(255,255,255,0.2);
-      background:rgba(0,0,0,0.5);
-      color:#fff;
-      border-radius:999px;
-      padding:.55rem .85rem;
-      cursor:pointer;
-      font-weight:700;
-    }
-
-    .ww-empty{
-      width:100%;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:2rem;
-      color:var(--ww-ink-strong);
-      font-weight:700;
-    }
-
-    @media (max-width:980px){
-      .ww-content{
-        grid-template-columns:1fr;
-        gap:1rem;
+    @media (max-width:1100px){
+      .ww-shell{
         padding:1rem;
       }
 
-      .ww-side{
-        justify-content:flex-start;
+      .ww-list-frame{
+        width:min(100%, calc(100vw - 2rem));
+        height:min(92vh, 860px);
+      }
+    }
+
+    @media (max-width:980px){
+      .ww-shell{
+        padding:0;
       }
 
-      .ww-main{
-        height:auto;
-      }
-
-      .ww-stage-list{
-        height:calc(100vh - 8rem);
-      }
-
-      .ww-clrow{
-        flex-direction:column;
-        min-height:auto;
-      }
-
-      .ww-img,
-      .ww-meta{
+      .ww-list-frame{
         width:100%;
-      }
-
-      .ww-meta{
-        border-left:0;
-        border-top:1px solid rgba(255,255,255,0.10);
-      }
-
-      .ww-status,
-      .ww-banner{
-        width:min(100%, 980px);
-      }
-
-      .ww-portal{
-        flex-direction:column;
         height:100vh;
+        border-radius:0;
+        grid-template-columns:1fr;
       }
 
-      .ww-left{
+      .ww-list-rail{
+        display:none;
+      }
+
+      .ww-list-scroll{
+        padding:1.4rem 1rem 1.4rem;
+      }
+
+      .ww-list-card{
+        border-radius:1.3rem;
+      }
+
+      .ww-list-row{
+        flex-direction:column;
+      }
+
+      .ww-list-thumb,
+      .ww-list-meta{
         width:100%;
-        flex:0 0 auto;
+        min-width:100%;
       }
 
-      .ww-mini-shell{
-        padding:1rem 0;
+      .ww-list-thumb{
+        height:120px;
       }
 
-      .ww-right{
-        min-height:65vh;
+      .ww-list-thumb::after{
+        display:none;
+      }
+
+      .ww-list-meta{
+        padding:1rem;
+      }
+
+      .ww-clue-frame{
+        grid-template-columns:1fr;
+      }
+
+      .ww-clue-rail{
+        display:none;
+      }
+
+      .ww-clue-stage{
+        padding:1.2rem;
+      }
+
+      .ww-clue-image{
+        width:100%;
+        max-height:86vh;
       }
     }
   `;
@@ -646,9 +639,7 @@ function showError(message) {
   ensureStyles();
   app.innerHTML = `
     <div class="ww-page">
-      <div class="ww-shell">
-        <div class="ww-empty">${escapeHtml(message)}</div>
-      </div>
+      <div class="ww-empty">${escapeHtml(message)}</div>
     </div>
   `;
 }
@@ -657,59 +648,49 @@ function renderClueList(game, clues) {
   const app = getApp();
   ensureStyles();
 
-  if (!Array.isArray(clues) || clues.length === 0) {
-    throw new Error("No clues found");
-  }
-
-  const items = clues
-    .slice()
-    .sort((a, b) => Number(b.id) - Number(a.id))
-    .map((clue) => {
-      const clueId = Number(clue.id);
-      return `
-        <article class="ww-banner" data-clue="${clueId}">
-          <div class="ww-clrow">
-            <div class="ww-img">
-              <img src="${clueDisplayImageUrl(clueId)}" alt="Clue ${escapeHtml(clueDisplayName(clueId))}">
-            </div>
-            <div class="ww-meta">
-              <div class="ww-meta-copy">
-                <div class="ww-kicker">CLUE</div>
-                <div class="ww-num">${escapeHtml(clueDisplayName(clueId))}</div>
-              </div>
-              <button type="button" class="ww-open" data-open-clue="${clueId}">OPEN →</button>
-            </div>
+  const items = [];
+  for (let clueId = 12; clueId >= 1; clueId -= 1) {
+    items.push(`
+      <article class="ww-list-card" data-clue="${clueId}">
+        <div class="ww-list-row">
+          <div class="ww-list-thumb">
+            <img src="${clueDisplayImageUrl(clueId)}" alt="Clue ${escapeHtml(clueDisplayName(clueId))}">
           </div>
-        </article>
-      `;
-    })
-    .join("");
+          <div class="ww-list-meta">
+            <div class="ww-list-copy">
+              <div class="ww-kicker">CLUE</div>
+              <div class="ww-list-title">${escapeHtml(clueDisplayName(clueId))}</div>
+            </div>
+            <button type="button" class="ww-open" data-open-clue="${clueId}">OPEN →</button>
+          </div>
+        </div>
+      </article>
+    `);
+  }
 
   app.innerHTML = `
     <div class="ww-page">
       <div class="ww-shell">
-        <div class="ww-content">
-          <div class="ww-side">
-            <button type="button" class="ww-side-logo" data-go-list aria-label="Base Station">
+        <div class="ww-list-frame">
+          <aside class="ww-list-rail">
+            <div class="ww-list-rail-logo">
               <img src="${logoUrl()}" alt="WinterWord">
-              <div class="ww-side-divider"></div>
-              <div class="ww-side-label">BASE STATION</div>
-            </button>
-          </div>
+            </div>
+            <div class="ww-list-rail-divider"></div>
+            <button type="button" class="ww-list-rail-link">BASE STATION</button>
+          </aside>
 
-          <div class="ww-main">
-            <div class="ww-stage-list">
-              <div class="ww-list-scroll">
-                <div class="ww-cllist">
-                  <div class="ww-status">
-                    <span>${escapeHtml(game.title || "WinterWord 2026")}</span>
-                    <span>${clues.length} clue${clues.length === 1 ? "" : "s"} loaded</span>
-                  </div>
-                  ${items}
+          <main class="ww-list-main">
+            <div class="ww-list-scroll">
+              <div class="ww-list-stack">
+                <div class="ww-list-status">
+                  <span>${escapeHtml(game.title || "WinterWord 2026")}</span>
+                  <span>12 clue thumbnails</span>
                 </div>
+                ${items.join("")}
               </div>
             </div>
-          </div>
+          </main>
         </div>
       </div>
     </div>
@@ -723,13 +704,6 @@ function renderClueList(game, clues) {
     });
   });
 
-  const listButton = app.querySelector("[data-go-list]");
-  if (listButton) {
-    listButton.addEventListener("click", () => {
-      renderClueList(game, clues);
-    });
-  }
-
   WW.currentView = { type: "list" };
 }
 
@@ -737,25 +711,20 @@ function renderSingleClue(game, clues, clueId) {
   const app = getApp();
   ensureStyles();
 
-  const clue = clues.find((item) => Number(item.id) === Number(clueId));
-  if (!clue) {
-    throw new Error("Clue not found");
-  }
-
-  const clueIdNum = Number(clue.id);
+  const clueIdNum = Number(clueId);
   const imageUrl = clueImageUrl(clueIdNum);
 
   app.innerHTML = `
     <div class="ww-page">
-      <div class="ww-shell">
-        <div class="ww-portal">
-          <aside class="ww-left">
+      <div class="ww-clue-shell">
+        <div class="ww-clue-frame">
+          <aside class="ww-clue-rail">
             <div class="ww-mini-shell">
               <div class="ww-mini-logo">
                 <img src="${logoUrl()}" alt="WinterWord">
               </div>
 
-              <nav class="ww-mini-textnav">
+              <nav class="ww-mini-textnav" aria-label="Clue navigation">
                 <button type="button" class="ww-mini-textlink">BASE</button>
                 <button type="button" class="ww-mini-textlink" data-go-list data-active="true">CLUES</button>
                 <button type="button" class="ww-mini-textlink">LIFE</button>
@@ -763,23 +732,9 @@ function renderSingleClue(game, clues, clueId) {
             </div>
           </aside>
 
-          <main class="ww-right">
-            <div class="ww-stage">
-              <div class="ww-clue-stage">
-                <button type="button" class="ww-clue-still" data-open-overlay aria-label="Open clue ${clueIdNum}">
-                  <img src="${imageUrl}" alt="Clue ${clueIdNum}">
-                </button>
-              </div>
-
-              <div class="ww-overlay" id="wwOverlay">
-                <div class="ww-veil" data-close-overlay></div>
-                <div class="ww-modal">
-                  <div class="ww-modal-inner">
-                    <button type="button" class="ww-overlay-close" data-close-overlay>Close</button>
-                    <img src="${imageUrl}" alt="Clue ${clueIdNum}">
-                  </div>
-                </div>
-              </div>
+          <main class="ww-clue-main">
+            <div class="ww-clue-stage">
+              <img class="ww-clue-image" src="${imageUrl}" alt="Clue ${clueIdNum}">
             </div>
           </main>
         </div>
@@ -787,38 +742,12 @@ function renderSingleClue(game, clues, clueId) {
     </div>
   `;
 
-  const overlay = app.querySelector("#wwOverlay");
-  const openOverlayButton = app.querySelector("[data-open-overlay]");
-  const closeOverlayButtons = app.querySelectorAll("[data-close-overlay]");
   const listButtons = app.querySelectorAll("[data-go-list]");
-
-  function openOverlay() {
-    if (overlay) overlay.classList.add("is-open");
-  }
-
-  function closeOverlay() {
-    if (overlay) overlay.classList.remove("is-open");
-  }
-
-  if (openOverlayButton) {
-    openOverlayButton.addEventListener("click", openOverlay);
-  }
-
-  closeOverlayButtons.forEach((button) => {
-    button.addEventListener("click", closeOverlay);
-  });
-
   listButtons.forEach((button) => {
     button.addEventListener("click", () => {
       renderClueList(game, clues);
     });
   });
-
-  document.onkeydown = function onKeyDown(event) {
-    if (event.key === "Escape") {
-      closeOverlay();
-    }
-  };
 
   WW.currentView = { type: "clue", clueId: clueIdNum };
 }
