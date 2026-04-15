@@ -44,7 +44,7 @@ async function loadAnswers(game) {
 
 function renderFirstClue(game, clues) {
   const app = document.getElementById("app");
-  if (!app) throw new Error('Missing #app container');
+  if (!app) throw new Error("Missing #app container");
 
   const firstClue = Array.isArray(clues) && clues.length > 0 ? clues[0] : null;
   if (!firstClue) throw new Error("No clues found");
