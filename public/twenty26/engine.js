@@ -77,7 +77,6 @@ function ensureStyles() {
       --ww-card-border:rgba(255,255,255,0.18);
       --ww-card-bg-top:rgba(255,255,255,0.12);
       --ww-card-bg-bottom:rgba(255,255,255,0.035);
-      --ww-shell-bg:rgba(0,0,0,0.48);
       --ww-shell-stroke:rgba(255,255,255,0.05);
       --ww-overlay:rgba(0,0,0,0.92);
       --ww-left-narrow:8.8rem;
@@ -107,29 +106,23 @@ function ensureStyles() {
 
     .ww-page{
       min-height:100vh;
-      padding:2rem;
+      padding:0;
       overflow:hidden;
     }
 
     .ww-shell{
-      max-width:82rem;
-      margin:0 auto;
-      height:calc(100vh - 4rem);
-      border-radius:1.75rem;
+      width:100%;
+      min-height:100vh;
       overflow:hidden;
-      background:var(--ww-shell-bg);
-      backdrop-filter:blur(6px);
-      box-shadow:
-        0 30px 80px rgba(0,0,0,0.6),
-        inset 0 0 0 1px var(--ww-shell-stroke);
+      background:transparent;
     }
 
     .ww-content{
-      height:100%;
+      min-height:100vh;
       display:grid;
       grid-template-columns:6.4rem minmax(0,1fr);
       gap:2rem;
-      padding:2.35rem 2.4rem;
+      padding:2rem 2.4rem;
       overflow:hidden;
     }
 
@@ -154,21 +147,12 @@ function ensureStyles() {
       color:inherit;
     }
 
-    .ww-side-mark{
-      width:5rem;
-      height:5rem;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.06) 48%, rgba(255,255,255,0) 72%);
-      box-shadow:
-        0 8px 24px rgba(0,0,0,0.35),
-        inset 0 0 0 1px rgba(255,255,255,0.08);
-      color:#fff;
-      font-weight:900;
-      letter-spacing:.08em;
-      font-size:1rem;
+    .ww-side-logo img{
+      width:9.6rem;
+      display:block;
+      filter:
+        drop-shadow(0 8px 12px rgba(0,0,0,0.35))
+        drop-shadow(0 2px 3px rgba(0,0,0,0.25));
     }
 
     .ww-side-divider{
@@ -190,7 +174,7 @@ function ensureStyles() {
     }
 
     .ww-main{
-      height:100%;
+      height:100vh;
       display:flex;
       overflow:hidden;
     }
@@ -339,9 +323,9 @@ function ensureStyles() {
 
     .ww-portal{
       display:flex;
-      height:100%;
+      height:100vh;
       overflow:hidden;
-      border-radius:1.75rem;
+      background:#000;
     }
 
     .ww-left{
@@ -370,31 +354,26 @@ function ensureStyles() {
     .ww-mini-logo::before{
       content:"";
       position:absolute;
-      inset:auto;
-      width:7.6rem;
-      height:7.6rem;
+      inset:-24px;
       border-radius:50%;
-      background:radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.00) 70%);
+      background:radial-gradient(
+        circle,
+        rgba(255,255,255,0.18) 0%,
+        rgba(255,255,255,0.08) 40%,
+        rgba(255,255,255,0.00) 70%
+      );
       filter:blur(10px);
       z-index:0;
     }
 
-    .ww-mini-logo-mark{
-      width:5.8rem;
-      height:5.8rem;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+    .ww-mini-logo img{
+      width:8.6rem;
       position:relative;
       z-index:1;
-      color:#fff;
-      font-weight:900;
-      letter-spacing:.08em;
-      background:rgba(255,255,255,0.06);
-      box-shadow:
-        0 8px 12px rgba(0,0,0,0.35),
-        0 2px 3px rgba(0,0,0,0.25);
+      display:block;
+      filter:
+        drop-shadow(0 8px 12px rgba(0,0,0,0.35))
+        drop-shadow(0 2px 3px rgba(0,0,0,0.25));
     }
 
     .ww-mini-textnav{
@@ -434,6 +413,25 @@ function ensureStyles() {
       position:relative;
       overflow:hidden;
       background:#000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2.4rem 2.8rem;
+    }
+
+    .ww-stage{
+      width:100%;
+      height:100%;
+      border-radius:1.4rem;
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 28%, rgba(0,0,0,0) 55%),
+        radial-gradient(circle at center, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 76%, rgba(0,0,0,0.82) 100%),
+        #000;
+      box-shadow:
+        inset 0 0 120px rgba(0,0,0,0.58),
+        inset 0 0 220px rgba(0,0,0,0.38);
     }
 
     .ww-clue-stage{
@@ -446,8 +444,8 @@ function ensureStyles() {
     }
 
     .ww-clue-still{
-      width:min(90vw, 1400px);
-      max-height:90vh;
+      width:min(88vw, 1380px);
+      max-height:88vh;
       object-fit:contain;
       cursor:pointer;
       border:0;
@@ -458,7 +456,7 @@ function ensureStyles() {
 
     .ww-clue-still img{
       width:100%;
-      max-height:90vh;
+      max-height:88vh;
       object-fit:contain;
       display:block;
     }
@@ -531,14 +529,43 @@ function ensureStyles() {
       padding:.7rem 1rem;
       cursor:pointer;
       font-weight:800;
-      letter-spacing:.04em;
+      letter-spacing:.12em;
       text-transform:uppercase;
-      font-size:.76rem;
+      font-size:.72rem;
+    }
+
+    .ww-clue-caption{
+      position:absolute;
+      bottom:28px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:18;
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      gap:.35rem;
+      align-items:center;
+      pointer-events:none;
+    }
+
+    .ww-clue-caption .ww-kicker{
+      font-size:.68rem;
+      letter-spacing:.28em;
+      color:#b7d3e2;
+    }
+
+    .ww-clue-caption .ww-caption-title{
+      color:#ffffff;
+      font-size:1.05rem;
+      font-weight:900;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      text-shadow:0 2px 10px rgba(0,0,0,0.55);
     }
 
     .ww-empty{
       width:100%;
-      min-height:100%;
+      min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -549,15 +576,6 @@ function ensureStyles() {
     }
 
     @media (max-width:980px){
-      .ww-page{
-        padding:0;
-      }
-
-      .ww-shell{
-        height:100vh;
-        border-radius:0;
-      }
-
       .ww-content{
         grid-template-columns:1fr;
         gap:1rem;
@@ -590,6 +608,7 @@ function ensureStyles() {
 
       .ww-portal{
         flex-direction:column;
+        height:100vh;
       }
 
       .ww-left{
@@ -603,11 +622,20 @@ function ensureStyles() {
 
       .ww-right{
         min-height:65vh;
+        padding:1rem;
+      }
+
+      .ww-stage{
+        border-radius:1rem;
       }
 
       .ww-back-btn{
         top:14px;
         left:14px;
+      }
+
+      .ww-clue-caption{
+        bottom:20px;
       }
     }
   `;
@@ -622,6 +650,10 @@ function clueImageUrl(clueId) {
   const padded = padClueId(clueId);
   const extension = padded === "12" ? "gif" : "png";
   return `${ASSET_BASE}/images/clues/${padded}.${extension}`;
+}
+
+function logoUrl() {
+  return `${ASSET_BASE}/images/ui/logo.png`;
 }
 
 function clueDisplayName(clueId) {
@@ -702,7 +734,7 @@ function renderClueList(game, clues) {
         <div class="ww-content">
           <div class="ww-side">
             <button type="button" class="ww-side-logo" data-go-list aria-label="Clue List">
-              <div class="ww-side-mark">WW</div>
+              <img src="${logoUrl()}" alt="WinterWord">
               <div class="ww-side-divider"></div>
               <div class="ww-side-label">CLUE LIST</div>
             </button>
@@ -764,7 +796,7 @@ function renderSingleClue(game, clues, clueId) {
           <aside class="ww-left">
             <div class="ww-mini-shell">
               <div class="ww-mini-logo">
-                <div class="ww-mini-logo-mark">WW</div>
+                <img src="${logoUrl()}" alt="WinterWord">
               </div>
 
               <nav class="ww-mini-textnav">
@@ -775,20 +807,27 @@ function renderSingleClue(game, clues, clueId) {
           </aside>
 
           <main class="ww-right">
-            <button type="button" class="ww-back-btn" data-go-list>← Back</button>
+            <div class="ww-stage">
+              <button type="button" class="ww-back-btn" data-go-list>← Back</button>
 
-            <div class="ww-clue-stage">
-              <button type="button" class="ww-clue-still" data-open-overlay aria-label="Open ${escapeHtml(clueTitle)}">
-                <img src="${imageUrl}" alt="${escapeHtml(clueTitle)}">
-              </button>
-            </div>
-
-            <div class="ww-overlay" id="wwOverlay">
-              <div class="ww-veil" data-close-overlay></div>
-              <div class="ww-modal">
-                <div class="ww-modal-inner">
-                  <button type="button" class="ww-overlay-close" data-close-overlay>Close</button>
+              <div class="ww-clue-stage">
+                <button type="button" class="ww-clue-still" data-open-overlay aria-label="Open ${escapeHtml(clueTitle)}">
                   <img src="${imageUrl}" alt="${escapeHtml(clueTitle)}">
+                </button>
+              </div>
+
+              <div class="ww-clue-caption">
+                <div class="ww-kicker">CLUE</div>
+                <div class="ww-caption-title">${escapeHtml(clueDisplayName(clueIdNum))}</div>
+              </div>
+
+              <div class="ww-overlay" id="wwOverlay">
+                <div class="ww-veil" data-close-overlay></div>
+                <div class="ww-modal">
+                  <div class="ww-modal-inner">
+                    <button type="button" class="ww-overlay-close" data-close-overlay>Close</button>
+                    <img src="${imageUrl}" alt="${escapeHtml(clueTitle)}">
+                  </div>
                 </div>
               </div>
             </div>
