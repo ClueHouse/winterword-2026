@@ -114,30 +114,32 @@ function ensureStyles() {
     :root{
       --ww-ink:#dce5ec;
       --ww-ink-strong:#eef4fa;
-      --ww-bg-1:#07131f;
-      --ww-bg-2:#0b1a29;
-      --ww-bg-3:#13283a;
+      --ww-bg-1:#06111b;
+      --ww-bg-2:#091521;
+      --ww-bg-3:#122231;
 
-      --ww-panel-bg:#02060c;
-      --ww-panel-edge:rgba(255,255,255,0.045);
+      --ww-panel-bg:#03070d;
+      --ww-panel-edge:rgba(255,255,255,0.04);
 
-      --ww-rail-list:#314659;
       --ww-rail-clue-top:#30475e;
       --ww-rail-clue-bottom:#263949;
 
-      --ww-card-stroke:rgba(255,255,255,0.12);
-      --ww-card-bg-left:#0b131c;
-      --ww-card-bg-mid:#101a24;
-      --ww-card-bg-right:#283341;
-
-      --ww-button-border:rgba(166,196,214,0.34);
-      --ww-button-bg:rgba(166,196,214,0.08);
-      --ww-button-bg-hover:rgba(166,196,214,0.15);
-
-      --ww-accent:#c5dbe7;
-
-      --ww-list-rail-width:7.5rem;
+      --ww-list-sidebar-width:13.25rem;
       --ww-clue-rail-width:9.9rem;
+
+      --ww-card-stroke:rgba(255,255,255,0.10);
+      --ww-card-shadow:0 10px 24px rgba(0,0,0,0.18);
+
+      --ww-pill-left:#0b131b;
+      --ww-pill-mid:#101821;
+      --ww-pill-right:#1f2a36;
+
+      --ww-button-border:rgba(188,211,224,0.28);
+      --ww-button-bg:rgba(188,211,224,0.07);
+      --ww-button-bg-hover:rgba(188,211,224,0.14);
+
+      --ww-accent:#d7e4ec;
+      --ww-muted:#b8c9d5;
     }
 
     *{box-sizing:border-box;}
@@ -153,9 +155,9 @@ function ensureStyles() {
       font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
       color:var(--ww-ink);
       background:
-        radial-gradient(1200px 720px at 18% 18%, rgba(255,255,255,0.03), transparent 60%),
-        radial-gradient(980px 560px at 82% 22%, rgba(224,182,182,0.04), transparent 58%),
-        linear-gradient(135deg, var(--ww-bg-1) 0%, var(--ww-bg-2) 48%, var(--ww-bg-3) 100%);
+        radial-gradient(1200px 720px at 18% 18%, rgba(255,255,255,0.028), transparent 60%),
+        radial-gradient(980px 560px at 82% 22%, rgba(211,182,160,0.035), transparent 58%),
+        linear-gradient(135deg, var(--ww-bg-1) 0%, var(--ww-bg-2) 50%, var(--ww-bg-3) 100%);
     }
 
     #app{
@@ -185,72 +187,110 @@ function ensureStyles() {
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:1.4rem;
+      padding:1.25rem;
     }
 
     /* CLUE LIST */
     .ww-list-frame{
-      width:min(1145px, calc(100vw - 2.8rem));
+      width:min(1140px, calc(100vw - 2.5rem));
       height:min(92vh, 810px);
-      border-radius:1.85rem;
+      border-radius:1.8rem;
       overflow:hidden;
       display:grid;
-      grid-template-columns:var(--ww-list-rail-width) minmax(0,1fr);
+      grid-template-columns:var(--ww-list-sidebar-width) minmax(0,1fr);
       background:
-        radial-gradient(circle at center, rgba(255,255,255,0.022) 0%, rgba(255,255,255,0.004) 30%, rgba(0,0,0,0) 58%),
-        radial-gradient(circle at center, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.56) 76%, rgba(0,0,0,0.84) 100%),
+        radial-gradient(circle at center, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.004) 26%, rgba(0,0,0,0) 54%),
+        radial-gradient(circle at center, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.52) 76%, rgba(0,0,0,0.84) 100%),
         var(--ww-panel-bg);
       box-shadow:
         inset 0 0 0 1px var(--ww-panel-edge),
-        inset 0 0 120px rgba(0,0,0,0.56),
-        inset 0 0 220px rgba(0,0,0,0.32);
+        inset 0 0 120px rgba(0,0,0,0.52),
+        inset 0 0 220px rgba(0,0,0,0.26);
     }
 
-    .ww-list-rail{
-      background:rgba(49,70,89,0.72);
-      box-shadow:inset -1px 0 0 rgba(255,255,255,0.035);
+    .ww-list-sidebar{
+      position:relative;
+      min-height:0;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.012) 20%, rgba(255,255,255,0) 58%),
+        linear-gradient(180deg, rgba(44,61,78,0.34) 0%, rgba(24,34,45,0.18) 100%);
+    }
+
+    .ww-list-sidebar::after{
+      content:"";
+      position:absolute;
+      top:1.8rem;
+      right:0;
+      bottom:1.8rem;
+      width:1px;
+      background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 16%, rgba(255,255,255,0.08) 84%, rgba(255,255,255,0) 100%);
+      pointer-events:none;
+    }
+
+    .ww-list-sidebar-inner{
+      width:100%;
       display:flex;
       flex-direction:column;
       align-items:center;
-      justify-content:center;
-      gap:1.65rem;
-      padding:1.5rem 0.75rem;
+      justify-content:flex-start;
+      padding:2.25rem 1.1rem 2rem;
+      gap:2rem;
     }
 
-    .ww-list-rail-logo{
+    .ww-list-logo{
+      width:100%;
       display:flex;
       align-items:center;
       justify-content:center;
-      width:100%;
+      padding-top:.2rem;
     }
 
-    .ww-list-rail-logo img{
-      width:6.95rem;
+    .ww-list-logo img{
+      width:7.35rem;
       display:block;
+      opacity:.97;
       filter:
-        drop-shadow(0 9px 12px rgba(0,0,0,0.30))
-        drop-shadow(0 2px 4px rgba(0,0,0,0.22));
-      opacity:0.96;
+        drop-shadow(0 10px 14px rgba(0,0,0,0.34))
+        drop-shadow(0 2px 4px rgba(0,0,0,0.24));
     }
 
-    .ww-list-rail-divider{
-      width:38px;
-      height:1px;
-      background:rgba(255,255,255,0.14);
+    .ww-list-side-nav{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:1.05rem;
+      margin-top:.5rem;
     }
 
-    .ww-list-rail-link{
+    .ww-list-side-link{
       border:0;
       background:none;
-      color:#f4f7fa;
-      font-size:.76rem;
+      color:#f3f6f9;
+      font-size:.78rem;
       font-weight:900;
-      letter-spacing:.26em;
+      letter-spacing:.28em;
       text-transform:uppercase;
       cursor:pointer;
       white-space:nowrap;
-      padding:.55rem 0;
-      line-height:1.3;
+      padding:.2rem 0;
+      line-height:1.25;
+      opacity:.94;
+      transition:transform 150ms ease, opacity 150ms ease, color 150ms ease;
+    }
+
+    .ww-list-side-link:hover{
+      transform:scale(1.05);
+      opacity:1;
+      color:#ffffff;
+    }
+
+    .ww-list-side-link[data-active="true"]{
+      color:#ffffff;
+      opacity:1;
     }
 
     .ww-list-main{
@@ -265,7 +305,7 @@ function ensureStyles() {
       min-height:0;
       overflow-y:auto;
       overflow-x:hidden;
-      padding:2.55rem 1.7rem 1.7rem;
+      padding:2.1rem 1.65rem 1.5rem 1.4rem;
     }
 
     .ww-list-scroll::-webkit-scrollbar{
@@ -273,61 +313,67 @@ function ensureStyles() {
     }
 
     .ww-list-scroll::-webkit-scrollbar-thumb{
-      background:rgba(255,255,255,0.15);
+      background:rgba(255,255,255,0.14);
       border-radius:999px;
     }
 
     .ww-list-stack{
-      width:min(900px, 100%);
+      width:min(820px, 100%);
       margin:0 auto;
       display:flex;
       flex-direction:column;
-      gap:1rem;
+      gap:.72rem;
     }
 
     .ww-list-status{
       display:flex;
       justify-content:center;
-      gap:2rem;
+      gap:1.7rem;
       flex-wrap:wrap;
-      margin:0 0 .65rem;
-      color:var(--ww-ink-strong);
-      font-size:.97rem;
-      font-weight:950;
-      letter-spacing:.21em;
+      margin:0 0 .35rem;
+      color:var(--ww-accent);
+      font-size:.82rem;
+      font-weight:900;
+      letter-spacing:.20em;
       text-transform:uppercase;
       text-align:center;
+      opacity:.95;
     }
 
     .ww-list-card{
       width:100%;
-      min-height:5.9rem;
-      border-radius:1.75rem;
+      min-height:4.55rem;
+      border-radius:999px;
       border:1px solid var(--ww-card-stroke);
       overflow:hidden;
-      background:linear-gradient(90deg, var(--ww-card-bg-left) 0%, var(--ww-card-bg-mid) 55%, var(--ww-card-bg-right) 100%);
-      box-shadow:0 14px 32px rgba(0,0,0,0.20);
+      background:linear-gradient(90deg, var(--ww-pill-left) 0%, var(--ww-pill-mid) 54%, var(--ww-pill-right) 100%);
+      box-shadow:var(--ww-card-shadow);
+      backdrop-filter:blur(1px);
     }
 
     .ww-list-row{
-      display:flex;
-      min-height:5.9rem;
+      display:grid;
+      grid-template-columns:5.35rem minmax(0,1fr) auto;
+      align-items:center;
+      min-height:4.55rem;
+      gap:0;
     }
 
     .ww-list-thumb{
-      width:21%;
-      min-width:21%;
       position:relative;
+      height:100%;
       overflow:hidden;
       background:#000;
     }
 
     .ww-list-thumb img{
-      width:185%;
+      position:absolute;
+      inset:0 auto 0 0;
+      width:220%;
       height:100%;
       object-fit:cover;
       object-position:center center;
-      transform:translateX(-28%);
+      transform:translateX(-34%);
       display:block;
     }
 
@@ -336,34 +382,33 @@ function ensureStyles() {
       position:absolute;
       top:0;
       right:0;
-      width:55%;
+      width:56px;
       height:100%;
-      background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(11,19,28,0.90) 100%);
+      background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(11,19,27,0.94) 100%);
       pointer-events:none;
     }
 
     .ww-list-meta{
-      width:79%;
-      min-width:79%;
+      min-width:0;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:1rem;
-      padding:.9rem 1.15rem .9rem .85rem;
-      background:linear-gradient(90deg, rgba(34,43,54,0.42) 0%, rgba(29,37,47,0.30) 100%);
+      gap:.9rem;
+      padding:.7rem .9rem .7rem .2rem;
     }
 
     .ww-list-copy{
       display:flex;
       flex-direction:column;
       align-items:flex-start;
-      gap:.28rem;
+      justify-content:center;
+      gap:.14rem;
       min-width:0;
     }
 
     .ww-kicker{
-      color:var(--ww-accent);
-      font-size:.62rem;
+      color:var(--ww-muted);
+      font-size:.56rem;
       font-weight:900;
       letter-spacing:.24em;
       text-transform:uppercase;
@@ -372,25 +417,32 @@ function ensureStyles() {
 
     .ww-list-title{
       color:#ffffff;
-      font-size:.92rem;
+      font-size:.9rem;
       font-weight:900;
-      line-height:1;
+      line-height:1.05;
       text-transform:lowercase;
       text-decoration:underline;
       text-decoration-thickness:1px;
       text-underline-offset:.18em;
     }
 
+    .ww-open-wrap{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      padding-right:.72rem;
+    }
+
     .ww-open{
       border:1px solid var(--ww-button-border);
       background:var(--ww-button-bg);
       color:var(--ww-ink-strong);
-      border-radius:.95rem;
-      padding:.72rem 1rem;
-      min-width:5rem;
+      border-radius:999px;
+      padding:.58rem .92rem;
+      min-width:4.6rem;
       white-space:nowrap;
-      font:900 .82rem system-ui,-apple-system,"Segoe UI",sans-serif;
-      letter-spacing:.04em;
+      font:900 .75rem system-ui,-apple-system,"Segoe UI",sans-serif;
+      letter-spacing:.08em;
       cursor:pointer;
       transition:transform 160ms ease, background 160ms ease, border-color 160ms ease;
     }
@@ -398,11 +450,11 @@ function ensureStyles() {
     .ww-open:hover{
       transform:translateY(-1px);
       background:var(--ww-button-bg-hover);
-      border-color:rgba(166,196,214,0.54);
+      border-color:rgba(188,211,224,0.48);
     }
 
     .ww-open:focus-visible,
-    .ww-list-rail-link:focus-visible,
+    .ww-list-side-link:focus-visible,
     .ww-mini-textlink:focus-visible{
       outline:2px solid rgba(255,255,255,0.8);
       outline-offset:3px;
@@ -564,6 +616,10 @@ function ensureStyles() {
         width:min(100%, calc(100vw - 2rem));
         height:min(92vh, 810px);
       }
+
+      .ww-list-row{
+        grid-template-columns:4.8rem minmax(0,1fr) auto;
+      }
     }
 
     @media (max-width:980px){
@@ -578,43 +634,35 @@ function ensureStyles() {
         grid-template-columns:1fr;
       }
 
-      .ww-list-rail{
+      .ww-list-sidebar{
         display:none;
       }
 
       .ww-list-scroll{
-        padding:1.2rem 1rem 1.2rem;
+        padding:1.1rem .9rem 1.1rem;
+      }
+
+      .ww-list-stack{
+        width:100%;
+        gap:.68rem;
       }
 
       .ww-list-card{
-        border-radius:1.3rem;
+        border-radius:1.35rem;
       }
 
       .ww-list-row{
-        flex-direction:column;
+        grid-template-columns:4.5rem minmax(0,1fr);
+        min-height:4.5rem;
       }
 
-      .ww-list-thumb,
-      .ww-list-meta{
-        width:100%;
-        min-width:100%;
+      .ww-open-wrap{
+        padding-right:.35rem;
       }
 
-      .ww-list-thumb{
-        height:110px;
-      }
-
-      .ww-list-thumb img{
-        width:120%;
-        transform:translateX(-8%);
-      }
-
-      .ww-list-thumb::after{
-        display:none;
-      }
-
-      .ww-list-meta{
-        padding:1rem;
+      .ww-open{
+        min-width:auto;
+        padding:.54rem .78rem;
       }
 
       .ww-clue-frame{
@@ -632,6 +680,33 @@ function ensureStyles() {
       .ww-clue-image{
         width:100%;
         max-height:86vh;
+      }
+    }
+
+    @media (max-width:640px){
+      .ww-list-status{
+        gap:.55rem;
+        font-size:.72rem;
+        letter-spacing:.12em;
+      }
+
+      .ww-list-row{
+        grid-template-columns:4.15rem minmax(0,1fr);
+      }
+
+      .ww-list-meta{
+        gap:.55rem;
+        padding:.62rem .3rem .62rem .1rem;
+      }
+
+      .ww-list-title{
+        font-size:.84rem;
+      }
+
+      .ww-open{
+        font-size:.7rem;
+        letter-spacing:.05em;
+        padding:.52rem .7rem;
       }
     }
   `;
@@ -665,7 +740,9 @@ function renderClueList(game, clues) {
               <div class="ww-kicker">CLUE</div>
               <div class="ww-list-title">${escapeHtml(clueDisplayName(clueId))}</div>
             </div>
-            <button type="button" class="ww-open" data-open-clue="${clueId}">OPEN →</button>
+            <div class="ww-open-wrap">
+              <button type="button" class="ww-open" data-open-clue="${clueId}">OPEN →</button>
+            </div>
           </div>
         </div>
       </article>
@@ -676,12 +753,18 @@ function renderClueList(game, clues) {
     <div class="ww-page">
       <div class="ww-shell">
         <div class="ww-list-frame">
-          <aside class="ww-list-rail">
-            <div class="ww-list-rail-logo">
-              <img src="${logoUrl()}" alt="WinterWord">
+          <aside class="ww-list-sidebar">
+            <div class="ww-list-sidebar-inner">
+              <div class="ww-list-logo">
+                <img src="${logoUrl()}" alt="WinterWord">
+              </div>
+
+              <nav class="ww-list-side-nav" aria-label="Clue list navigation">
+                <button type="button" class="ww-list-side-link">BASE STATION</button>
+                <button type="button" class="ww-list-side-link" data-active="true">CLUES</button>
+                <button type="button" class="ww-list-side-link">LIFELINE</button>
+              </nav>
             </div>
-            <div class="ww-list-rail-divider"></div>
-            <button type="button" class="ww-list-rail-link">BASE STATION</button>
           </aside>
 
           <main class="ww-list-main">
