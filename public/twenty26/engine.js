@@ -68,18 +68,16 @@ function ensureStyles() {
     :root{
       --ww-ink:#dce5ec;
       --ww-muted:rgba(220,229,236,0.72);
-      --ww-bg-1:#070c12;
-      --ww-bg-2:#0e1721;
-      --ww-bg-3:#152534;
-      --ww-rail-bg:#2a3f52;
+      --ww-bg-1:#050a11;
+      --ww-bg-2:#0a1521;
+      --ww-bg-3:#102131;
+      --ww-rail-bg:#30485f;
       --ww-ink-strong:#ecf3fa;
       --ww-accent:#9dc3d6;
-      --ww-card-border:rgba(255,255,255,0.18);
-      --ww-card-bg-top:rgba(255,255,255,0.12);
-      --ww-card-bg-bottom:rgba(255,255,255,0.035);
-      --ww-shell-stroke:rgba(255,255,255,0.05);
+      --ww-card-border:rgba(255,255,255,0.16);
+      --ww-shell-stroke:rgba(255,255,255,0.06);
       --ww-overlay:rgba(0,0,0,0.92);
-      --ww-left-narrow:8.8rem;
+      --ww-left-narrow:7.4rem;
     }
 
     *{box-sizing:border-box;}
@@ -95,8 +93,8 @@ function ensureStyles() {
       font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
       color:var(--ww-ink);
       background:
-        radial-gradient(1200px 700px at 18% 18%, rgba(255,255,255,0.04), transparent 60%),
-        radial-gradient(900px 520px at 82% 22%, rgba(224,182,182,0.08), transparent 58%),
+        radial-gradient(1200px 700px at 18% 18%, rgba(255,255,255,0.035), transparent 60%),
+        radial-gradient(980px 560px at 82% 22%, rgba(224,182,182,0.06), transparent 58%),
         linear-gradient(135deg, var(--ww-bg-1) 0%, var(--ww-bg-2) 48%, var(--ww-bg-3) 100%);
     }
 
@@ -120,9 +118,9 @@ function ensureStyles() {
     .ww-content{
       min-height:100vh;
       display:grid;
-      grid-template-columns:6.4rem minmax(0,1fr);
-      gap:2rem;
-      padding:2rem 2.4rem;
+      grid-template-columns:6.6rem minmax(0,1fr);
+      gap:1.9rem;
+      padding:1.9rem 2.2rem;
       overflow:hidden;
     }
 
@@ -131,14 +129,14 @@ function ensureStyles() {
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:1.35rem;
+      gap:1rem;
     }
 
     .ww-side-logo{
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:.85rem;
+      gap:.95rem;
       text-decoration:none;
       background:none;
       border:0;
@@ -148,7 +146,7 @@ function ensureStyles() {
     }
 
     .ww-side-logo img{
-      width:9.6rem;
+      width:8.9rem;
       display:block;
       filter:
         drop-shadow(0 8px 12px rgba(0,0,0,0.35))
@@ -156,20 +154,17 @@ function ensureStyles() {
     }
 
     .ww-side-divider{
-      width:44px;
+      width:42px;
       height:1px;
-      background:rgba(255,255,255,0.20);
+      background:rgba(255,255,255,0.18);
     }
 
     .ww-side-label{
-      font-size:.82rem;
+      font-size:.76rem;
       letter-spacing:.22em;
       text-transform:uppercase;
       font-weight:900;
       color:#ffffff;
-      text-shadow:
-        0 1px 2px rgba(0,0,0,0.75),
-        0 0 4px rgba(255,255,255,0.04);
       white-space:nowrap;
     }
 
@@ -177,44 +172,57 @@ function ensureStyles() {
       height:100vh;
       display:flex;
       overflow:hidden;
+      align-items:center;
     }
 
-    .ww-scroll{
+    .ww-stage-list{
       width:100%;
-      height:100%;
+      height:calc(100vh - 3.8rem);
+      border-radius:1.55rem;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.008) 28%, rgba(0,0,0,0) 54%),
+        radial-gradient(circle at center, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.60) 76%, rgba(0,0,0,0.85) 100%),
+        #02060c;
+      box-shadow:
+        inset 0 0 0 1px var(--ww-shell-stroke),
+        inset 0 0 120px rgba(0,0,0,0.58),
+        inset 0 0 220px rgba(0,0,0,0.36);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .ww-list-scroll{
+      flex:1;
       overflow-y:auto;
       overflow-x:hidden;
-      padding-right:.35rem;
+      padding:3rem 1.8rem 2rem;
     }
 
-    .ww-scroll::-webkit-scrollbar{
+    .ww-list-scroll::-webkit-scrollbar{
       width:10px;
     }
 
-    .ww-scroll::-webkit-scrollbar-thumb{
+    .ww-list-scroll::-webkit-scrollbar-thumb{
       background:rgba(255,255,255,0.14);
       border-radius:999px;
     }
 
-    .ww-wrap{
-      padding:60px 18px 40px;
-    }
-
     .ww-cllist{
-      width:min(1100px,92vw);
+      width:min(980px,100%);
       margin:0 auto;
       display:flex;
       flex-direction:column;
-      gap:26px;
+      gap:1.55rem;
     }
 
     .ww-status{
-      width:min(980px,76vw);
-      margin:0 auto 34px;
+      width:min(900px,100%);
+      margin:0 auto .85rem;
       display:flex;
       justify-content:center;
-      gap:28px;
-      font-size:.98rem;
+      gap:2rem;
+      font-size:1rem;
       font-weight:950;
       letter-spacing:.20em;
       text-transform:uppercase;
@@ -224,18 +232,18 @@ function ensureStyles() {
     }
 
     .ww-banner{
-      width:min(980px,76vw);
+      width:min(900px,100%);
       margin:0 auto;
-      border-radius:28px;
+      border-radius:2rem;
       border:1px solid var(--ww-card-border);
-      background:linear-gradient(180deg, var(--ww-card-bg-top), var(--ww-card-bg-bottom));
       overflow:hidden;
-      box-shadow:0 18px 46px rgba(0,0,0,0.28);
+      background:linear-gradient(90deg, rgba(10,18,27,0.92) 0%, rgba(14,22,32,0.92) 58%, rgba(36,45,57,0.92) 100%);
+      box-shadow:0 18px 42px rgba(0,0,0,0.24);
     }
 
     .ww-clrow{
       display:flex;
-      height:132px;
+      min-height:7.55rem;
     }
 
     .ww-img{
@@ -248,12 +256,7 @@ function ensureStyles() {
       width:100%;
       height:100%;
       object-fit:cover;
-      transform:scale(1.04);
       display:block;
-    }
-
-    .ww-banner[data-clue="11"] .ww-img img{
-      transform:scale(1.35);
     }
 
     .ww-meta{
@@ -261,54 +264,55 @@ function ensureStyles() {
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding:14px 20px;
+      padding:1.1rem 1.35rem;
       border-left:1px solid rgba(255,255,255,0.10);
       gap:1rem;
+      background:linear-gradient(90deg, rgba(44,52,65,0.45) 0%, rgba(28,37,48,0.38) 100%);
     }
 
     .ww-meta-copy{
       display:flex;
       flex-direction:column;
-      gap:4px;
+      gap:.38rem;
       min-width:0;
+      align-items:flex-start;
     }
 
     .ww-kicker{
       font-size:.68rem;
       letter-spacing:.22em;
       text-transform:uppercase;
-      color:var(--ww-accent);
+      color:#c7dfeb;
       font-weight:900;
     }
 
     .ww-num{
-      font:900 20px/1 system-ui,-apple-system,"Segoe UI",sans-serif;
-      color:var(--ww-ink-strong);
+      font:900 1.05rem/1 system-ui,-apple-system,"Segoe UI",sans-serif;
+      color:#ffffff;
       text-transform:lowercase;
-    }
-
-    .ww-line{
-      width:40px;
-      height:1px;
-      background:rgba(157,195,214,0.5);
+      text-decoration:underline;
+      text-decoration-thickness:1px;
+      text-underline-offset:.18em;
     }
 
     .ww-open{
-      padding:12px 20px;
-      border-radius:16px;
-      border:1px solid rgba(157,195,214,0.40);
-      background:rgba(157,195,214,0.15);
+      padding:.95rem 1.22rem;
+      border-radius:1rem;
+      border:1px solid rgba(157,195,214,0.38);
+      background:rgba(157,195,214,0.12);
       color:var(--ww-ink-strong);
-      font:900 13px system-ui,-apple-system,"Segoe UI",sans-serif;
+      font:900 .88rem system-ui,-apple-system,"Segoe UI",sans-serif;
+      letter-spacing:.04em;
       white-space:nowrap;
       cursor:pointer;
       transition:transform 160ms ease, background 160ms ease, border-color 160ms ease;
+      min-width:5.4rem;
     }
 
     .ww-open:hover{
       transform:translateY(-1px);
-      background:rgba(157,195,214,0.22);
-      border-color:rgba(157,195,214,0.60);
+      background:rgba(157,195,214,0.20);
+      border-color:rgba(157,195,214,0.58);
     }
 
     .ww-open:focus-visible,
@@ -379,18 +383,18 @@ function ensureStyles() {
     .ww-mini-textnav{
       display:flex;
       flex-direction:column;
-      gap:0.9rem;
+      gap:.9rem;
       align-items:center;
     }
 
     .ww-mini-textlink{
       text-decoration:none;
       font-weight:900;
-      font-size:0.78rem;
-      letter-spacing:0.28em;
+      font-size:.78rem;
+      letter-spacing:.28em;
       text-transform:uppercase;
       color:#e3edf5;
-      opacity:0.92;
+      opacity:.92;
       display:inline-block;
       transition:transform 150ms ease, color 150ms ease;
       background:none;
@@ -416,7 +420,7 @@ function ensureStyles() {
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:2.4rem 2.8rem;
+      padding:2rem 2.4rem;
     }
 
     .ww-stage{
@@ -499,7 +503,7 @@ function ensureStyles() {
       object-fit:contain;
       display:block;
       box-shadow:0 26px 78px rgba(0,0,0,0.65);
-      border-radius:0.9rem;
+      border-radius:.9rem;
       background:#000;
     }
 
@@ -586,9 +590,17 @@ function ensureStyles() {
         justify-content:flex-start;
       }
 
+      .ww-main{
+        height:auto;
+      }
+
+      .ww-stage-list{
+        height:calc(100vh - 8rem);
+      }
+
       .ww-clrow{
         flex-direction:column;
-        height:auto;
+        min-height:auto;
       }
 
       .ww-img,
@@ -652,6 +664,11 @@ function clueImageUrl(clueId) {
   return `${ASSET_BASE}/images/clues/${padded}.${extension}`;
 }
 
+function clueDisplayImageUrl(clueId) {
+  const padded = padClueId(clueId);
+  return `${ASSET_BASE}/images/clues/display/${padded}.png`;
+}
+
 function logoUrl() {
   return `${ASSET_BASE}/images/ui/logo.png`;
 }
@@ -712,13 +729,12 @@ function renderClueList(game, clues) {
         <article class="ww-banner" data-clue="${clueId}">
           <div class="ww-clrow">
             <div class="ww-img">
-              <img src="${clueImageUrl(clueId)}" alt="Clue ${escapeHtml(clueDisplayName(clueId))}">
+              <img src="${clueDisplayImageUrl(clueId)}" alt="Clue ${escapeHtml(clueDisplayName(clueId))}">
             </div>
             <div class="ww-meta">
               <div class="ww-meta-copy">
                 <div class="ww-kicker">CLUE</div>
                 <div class="ww-num">${escapeHtml(clueDisplayName(clueId))}</div>
-                <div class="ww-line"></div>
               </div>
               <button type="button" class="ww-open" data-open-clue="${clueId}">OPEN →</button>
             </div>
@@ -741,16 +757,16 @@ function renderClueList(game, clues) {
           </div>
 
           <div class="ww-main">
-            <div class="ww-scroll">
-              <section class="ww-wrap">
+            <div class="ww-stage-list">
+              <div class="ww-list-scroll">
                 <div class="ww-cllist">
                   <div class="ww-status">
                     <span>${escapeHtml(game.title || "WinterWord 2026")}</span>
-                    <span>${clues.length} Clue${clues.length === 1 ? "" : "s"} Loaded</span>
+                    <span>${clues.length} clue${clues.length === 1 ? "" : "s"} loaded</span>
                   </div>
                   ${items}
                 </div>
-              </section>
+              </div>
             </div>
           </div>
         </div>
