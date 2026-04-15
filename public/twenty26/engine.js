@@ -1,6 +1,10 @@
 import { WW_CONFIG } from "./config.js";
 
-const ASSET_BASE = "https://raw.githubusercontent.com/ClueHouse/winterword-assets/main";
+const ASSET_ROOT = "/assets/winterword";
+const IMAGE_BASE = `${ASSET_ROOT}/images`;
+const AUDIO_BASE = `${ASSET_ROOT}/audio`;
+const VIDEO_BASE = `${ASSET_ROOT}/videos`;
+const API_BASE = `${ASSET_ROOT}/api`;
 const APP_STYLE_ID = "ww-engine-styles";
 
 const WW = {
@@ -8,12 +12,19 @@ const WW = {
   game: null,
   clues: [],
   answers: [],
-  currentView: { type: "list" }
+  currentView: { type: "list" },
+  paths: {
+    assets: ASSET_ROOT,
+    images: IMAGE_BASE,
+    audio: AUDIO_BASE,
+    videos: VIDEO_BASE,
+    api: API_BASE
+  }
 };
 
 console.log("Engine loaded");
 
-fetch("/api/bootstrap", { method: "POST" })
+fetch(`${API_BASE}/bootstrap`, { method: "POST" })
   .then((r) => r.json())
   .then((boot) => {
     start(boot);
@@ -66,16 +77,16 @@ function padClueId(value) {
 function clueImageUrl(clueId) {
   const padded = padClueId(clueId);
   const extension = padded === "12" ? "gif" : "png";
-  return `${ASSET_BASE}/images/clues/${padded}.${extension}`;
+  return `${IMAGE_BASE}/clues/${padded}.${extension}`;
 }
 
 function clueDisplayImageUrl(clueId) {
   const padded = padClueId(clueId);
-  return `${ASSET_BASE}/images/clues/display/${padded}.png`;
+  return `${IMAGE_BASE}/clues/display/${padded}.png`;
 }
 
 function logoUrl() {
-  return `${ASSET_BASE}/images/ui/logo.png`;
+  return `${IMAGE_BASE}/ui/logo.png`;
 }
 
 function clueDisplayName(clueId) {
