@@ -3,6 +3,6 @@ export async function onRequestPost(context) {
     ok: true,
     entry: "/twenty26/engine.js",
     slug: "testslug",
-    game_file: "/games/testslug.json"
+    game_file: "/assets/winterword/games/testslug.json"
   });
 }
