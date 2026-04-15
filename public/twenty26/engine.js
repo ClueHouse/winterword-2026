@@ -52,8 +52,9 @@ function renderClueList(game, clues) {
   const items = clues.map(clue => {
     return `
       <li>
-        <strong>${clue.title}</strong><br>
-        <span>${clue.content}</span>
+        <button type="button" data-clue-id="${clue.id}">
+          ${clue.title}
+        </button>
       </li>
     `;
   }).join("");
@@ -67,6 +68,40 @@ function renderClueList(game, clues) {
       </ol>
     </main>
   `;
+
+  const buttons = app.querySelectorAll("[data-clue-id]");
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      const clueId = Number(button.getAttribute("data-clue-id"));
+      renderSingleClue(game, clues, clueId);
+    });
+  });
+}
+
+function renderSingleClue(game, clues, clueId) {
+  const app = document.getElementById("app");
+  if (!app) throw new Error("Missing #app container");
+
+  const clue = clues.find(item => Number(item.id) === Number(clueId));
+  if (!clue) throw new Error("Clue not found");
+
+  app.innerHTML = `
+    <main>
+      <p>
+        <button type="button" id="back-to-list">Back</button>
+      </p>
+      <h1>${game.title}</h1>
+      <h2>${clue.title}</h2>
+      <p>${clue.content}</p>
+    </main>
+  `;
+
+  const backButton = document.getElementById("back-to-list");
+  if (backButton) {
+    backButton.addEventListener("click", () => {
+      renderClueList(game, clues);
+    });
+  }
 }
 
 async function start(boot) {
