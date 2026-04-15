@@ -42,18 +42,29 @@ async function loadAnswers(game) {
   return answers;
 }
 
-function renderFirstClue(game, clues) {
+function renderClueList(game, clues) {
   const app = document.getElementById("app");
   if (!app) throw new Error("Missing #app container");
+  if (!Array.isArray(clues) || clues.length === 0) {
+    throw new Error("No clues found");
+  }
 
-  const firstClue = Array.isArray(clues) && clues.length > 0 ? clues[0] : null;
-  if (!firstClue) throw new Error("No clues found");
+  const items = clues.map(clue => {
+    return `
+      <li>
+        <strong>${clue.title}</strong><br>
+        <span>${clue.content}</span>
+      </li>
+    `;
+  }).join("");
 
   app.innerHTML = `
     <main>
       <h1>${game.title}</h1>
-      <h2>${firstClue.title}</h2>
-      <p>${firstClue.content}</p>
+      <h2>Clue List</h2>
+      <ol>
+        ${items}
+      </ol>
     </main>
   `;
 }
@@ -66,7 +77,7 @@ async function start(boot) {
     const clues = await loadClues(game);
     await loadAnswers(game);
 
-    renderFirstClue(game, clues);
+    renderClueList(game, clues);
 
     console.log("ENGINE READY");
   } catch (err) {
