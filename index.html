@@ -17,22 +17,13 @@
 <div data-ww-app-root></div>
 
 <!-- WINTERWORD ENGINE BOOTSTRAP -->
-<script>
+<script type="module">
 (async () => {
   try {
-    const slug = "testslug";
-
-    const res = await fetch("/assets/winterword/api/bootstrap", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ slug })
-    });
-
+    const res = await fetch("/assets/winterword/api/bootstrap");
     const data = await res.json();
 
-    if (!data.ok) {
+    if (!data.entry) {
       document.body.innerText = "Invalid game.";
       return;
     }
