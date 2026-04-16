@@ -1,4 +1,8 @@
+
 import { WW_CONFIG } from "./config.js";
+
+console.log("ENGINE FILE LOADED");
+
 
 
 
