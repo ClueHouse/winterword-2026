@@ -305,13 +305,19 @@ function padClueId(value) {
 }
 
 function clueImageUrl(clueId) {
+  const padded = String(clueId).padStart(2, "0");
+  const extension = padded === "12" ? "gif" : "png";
+  return `/winterword/assets/winterword/images/clues/${padded}.${extension}`;
+}
   const padded = padClueId(clueId);
   const extension = padded === "12" ? "gif" : "png";
   return `${getImageBase()}/clues/${padded}.${extension}`;
 }
 
 function clueDisplayImageUrl(clueId) {
-  const padded = padClueId(clueId);
+  const padded = String(clueId).padStart(2, "0");
+  return `/winterword/assets/winterword/images/clues/display/${padded}.png`;
+}  const padded = padClueId(clueId);
   return `${getImageBase()}/clues/display/${padded}.png`;
 }
 
