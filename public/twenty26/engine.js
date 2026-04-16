@@ -3,7 +3,7 @@ import { WW_CONFIG } from "./config.js";
 const REPO_ROOT = "winterword";
 const PUBLIC_ROOT = "assets/winterword";
 
-const IMAGE_BASE = `${PUBLIC_ROOT}/images`;
+const IMAGE_BASE = "/winterword/assets/winterword/images";
 const AUDIO_BASE = `${PUBLIC_ROOT}/audio`;
 const VIDEO_BASE = `${PUBLIC_ROOT}/videos`;
 const API_BASE   = `${PUBLIC_ROOT}/api`;
