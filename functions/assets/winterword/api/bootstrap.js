@@ -1,13 +1,14 @@
 export async function onRequest(context) {
   try {
-    // Always load bootstrap.json
-    const url = new URL(`../../../bootstrap/bootstrap.json`, import.meta.url);
-    const json = await fetch(url).then(r => r.json());
+    const json = {
+      entry: "/twenty26/engine.js",
+      slug: "default",
+      game_file: "/assets/winterword/games/default.json"
+    };
 
     return new Response(JSON.stringify(json), {
       headers: { "Content-Type": "application/json" }
     });
-
   } catch (err) {
     return new Response(
       JSON.stringify({
