@@ -9,6 +9,8 @@ const API_BASE = "/assets/winterword/api";
 const DATA_BASE = `${PUBLIC_ROOT}/data`;
 const APP_STYLE_ID = "ww-engine-styles";
 
+const CONFIG = normalizeConfig(WW_CONFIG);
+
 const WW = {
   boot: null,
   game: null,
@@ -26,25 +28,28 @@ const WW = {
   }
 };
 
+let bootStarted = false;
+
 console.log("Engine loaded");
 
 startBootstrap();
 
 async function startBootstrap() {
+  if (bootStarted) return;
+  bootStarted = true;
+
   try {
     const boot = await fetchJSON(`${API_BASE}/bootstrap`);
-
     console.log("BOOTSTRAP:", boot);
-
-  } catch (err) {
-    console.error("BOOTSTRAP ERROR:", err);
-  }
-}--
     await start(boot);
   } catch (err) {
     console.error("BOOTSTRAP ERROR:", err);
-    showError(err && err.message ? err.message : "Bootstrap failed");
+    showError(formatErrorMessage("Bootstrap failed", err));
   }
+}
+
+function normalizeConfig(config) {
+  return config && typeof config === "object" ? config : {};
 }
 
 function isAbsoluteUrl(value) {
@@ -105,34 +110,6 @@ function normalizeAssetPath(inputPath, fallbackType) {
     return joinPath(joinPath(DATA_BASE, "answers"), clean.slice("answers/".length));
   }
 
-  if (lower.startsWith("/images/")) {
-    return joinPath(IMAGE_BASE, clean.slice("images/".length));
-  }
-
-  if (lower.startsWith("/audio/")) {
-    return joinPath(AUDIO_BASE, clean.slice("audio/".length));
-  }
-
-  if (lower.startsWith("/videos/")) {
-    return joinPath(VIDEO_BASE, clean.slice("videos/".length));
-  }
-
-  if (lower.startsWith("/api/")) {
-    return joinPath(API_BASE, clean.slice("api/".length));
-  }
-
-  if (lower.startsWith("/games/")) {
-    return joinPath(joinPath(DATA_BASE, "games"), clean.slice("games/".length));
-  }
-
-  if (lower.startsWith("/clues/")) {
-    return joinPath(joinPath(DATA_BASE, "clues"), clean.slice("clues/".length));
-  }
-
-  if (lower.startsWith("/answers/")) {
-    return joinPath(joinPath(DATA_BASE, "answers"), clean.slice("answers/".length));
-  }
-
   if (fallbackType === "image") {
     return joinPath(IMAGE_BASE, stripLeadingSlash(clean));
   }
@@ -165,7 +142,9 @@ function normalizeAssetPath(inputPath, fallbackType) {
 }
 
 function normalizeBoot(boot) {
-  if (!boot || typeof boot !== "object") return boot;
+  if (!boot || typeof boot !== "object") {
+    throw new Error("Bootstrap payload is missing or invalid.");
+  }
 
   const normalized = { ...boot };
 
@@ -189,11 +168,17 @@ function normalizeBoot(boot) {
     normalized.image_base = normalizeAssetPath(normalized.image_base, "image");
   }
 
+  if (!normalized.game_file) {
+    throw new Error("Bootstrap payload is missing game_file.");
+  }
+
   return normalized;
 }
 
 function normalizeGame(game) {
-  if (!game || typeof game !== "object") return game;
+  if (!game || typeof game !== "object") {
+    throw new Error("Game payload is missing or invalid.");
+  }
 
   const normalized = { ...game };
 
@@ -222,12 +207,36 @@ function normalizeGame(game) {
 
 async function fetchJSON(path, options) {
   const resolvedPath = normalizeAssetPath(path);
-  const res = await fetch(resolvedPath, options);
-  if (!res.ok) throw new Error("Failed to load " + resolvedPath);
-  return await res.json();
+  if (!resolvedPath) {
+    throw new Error("Missing JSON path.");
+  }
+
+  let res;
+  try {
+    res = await fetch(resolvedPath, options);
+  } catch (err) {
+    throw new Error(`Network error loading ${resolvedPath}: ${err && err.message ? err.message : "Unknown network error"}`);
+  }
+
+  if (!res.ok) {
+    throw new Error(`Failed to load ${resolvedPath} (${res.status} ${res.statusText})`);
+  }
+
+  const contentType = res.headers.get("content-type") || "";
+  const text = await res.text();
+
+  if (!contentType.toLowerCase().includes("application/json")) {
+    throw new Error(`Expected JSON from ${resolvedPath}, got ${contentType || "unknown content type"}: ${text.slice(0, 160)}`);
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch (err) {
+    throw new Error(`Invalid JSON from ${resolvedPath}: ${err && err.message ? err.message : "Parse error"}`);
+  }
 }
 
-async function loadBootstrap(boot) {
+function loadBootstrap(boot) {
   const normalized = normalizeBoot(boot);
   console.log("Bootstrap OK:", normalized);
   return normalized;
@@ -236,30 +245,58 @@ async function loadBootstrap(boot) {
 async function loadGame(boot) {
   const path = normalizeAssetPath(boot.game_file, "game");
   console.log("Loading game:", path);
+
   const game = normalizeGame(await fetchJSON(path));
   console.log("Game OK:", game);
+
   return game;
 }
 
 async function loadClues(game) {
+  if (!game.clues) {
+    console.log("No clues path found in game payload.");
+    return [];
+  }
+
   const path = normalizeAssetPath(game.clues, "clue-data");
   console.log("Loading clues:", path);
+
   const clues = await fetchJSON(path);
+  if (!Array.isArray(clues)) {
+    throw new Error("Clues payload must be an array.");
+  }
+
   console.log("Clues OK:", clues);
   return clues;
 }
 
 async function loadAnswers(game) {
+  if (!game.answers) {
+    console.log("No answers path found in game payload.");
+    return [];
+  }
+
   const path = normalizeAssetPath(game.answers, "answer-data");
   console.log("Loading answers:", path);
+
   const answers = await fetchJSON(path);
+  if (!Array.isArray(answers)) {
+    throw new Error("Answers payload must be an array.");
+  }
+
   console.log("Answers OK:", answers);
   return answers;
 }
 
 function getApp() {
-  const app = document.getElementById("app");
-  if (!app) throw new Error("Missing #app container");
+  const app =
+    document.querySelector("[data-ww-app-root]") ||
+    document.getElementById("app");
+
+  if (!app) {
+    throw new Error("Missing app container ([data-ww-app-root] or #app).");
+  }
+
   return app;
 }
 
@@ -270,19 +307,27 @@ function padClueId(value) {
 function clueImageUrl(clueId) {
   const padded = padClueId(clueId);
   const extension = padded === "12" ? "gif" : "png";
-  return `${IMAGE_BASE}/clues/${padded}.${extension}`;
+  return `${getImageBase()}/clues/${padded}.${extension}`;
 }
 
 function clueDisplayImageUrl(clueId) {
   const padded = padClueId(clueId);
-  return `${IMAGE_BASE}/clues/display/${padded}.png`;
+  return `${getImageBase()}/clues/display/${padded}.png`;
 }
 
 function logoUrl() {
-  return `${IMAGE_BASE}/ui/logo.png`;
+  return `${getImageBase()}/ui/logo.png`;
 }
 
-function clueDisplayName(clueId) {
+function clueDisplayName(clueId, clueRecord) {
+  if (clueRecord && typeof clueRecord.title === "string" && clueRecord.title.trim()) {
+    return clueRecord.title.trim();
+  }
+
+  if (clueRecord && typeof clueRecord.name === "string" && clueRecord.name.trim()) {
+    return clueRecord.name.trim();
+  }
+
   const names = {
     1: "one",
     2: "two",
@@ -297,7 +342,12 @@ function clueDisplayName(clueId) {
     11: "eleven",
     12: "twelve"
   };
+
   return names[Number(clueId)] || String(clueId);
+}
+
+function getImageBase() {
+  return (WW.boot && WW.boot.image_base) || CONFIG.imageBase || IMAGE_BASE;
 }
 
 function escapeHtml(value) {
@@ -364,7 +414,8 @@ function ensureStyles() {
         linear-gradient(135deg, var(--ww-bg-1) 0%, var(--ww-bg-2) 50%, var(--ww-bg-3) 100%);
     }
 
-    #app{
+    #app,
+    [data-ww-app-root]{
       min-height:100vh;
     }
 
@@ -383,6 +434,7 @@ function ensureStyles() {
       text-align:center;
       color:var(--ww-ink-strong);
       font-weight:700;
+      white-space:pre-wrap;
     }
 
     .ww-shell{
@@ -934,8 +986,21 @@ function ensureStyles() {
   document.head.appendChild(style);
 }
 
+function formatErrorMessage(prefix, err) {
+  const base = err && err.message ? err.message : String(err || "Unknown error");
+  return `${prefix}\n${base}`;
+}
+
 function showError(message) {
-  const app = getApp();
+  let app;
+  try {
+    app = getApp();
+  } catch (rootErr) {
+    console.error("ERROR UI FAILED:", rootErr);
+    document.body.innerHTML = `<pre style="padding:16px;color:#fff;background:#000;white-space:pre-wrap;">${escapeHtml(formatErrorMessage(message, rootErr))}</pre>`;
+    return;
+  }
+
   ensureStyles();
   app.innerHTML = `
     <div class="ww-page">
@@ -944,22 +1009,45 @@ function showError(message) {
   `;
 }
 
+function getClueRecords(clues) {
+  return Array.isArray(clues) ? clues : [];
+}
+
+function getClueIdFromRecord(record, fallbackId) {
+  if (record && record.id !== undefined && record.id !== null && String(record.id).trim() !== "") {
+    const parsed = Number(record.id);
+    if (Number.isFinite(parsed) && parsed > 0) return parsed;
+  }
+
+  return Number(fallbackId);
+}
+
 function renderClueList(game, clues) {
   const app = getApp();
   ensureStyles();
 
+  const records = getClueRecords(clues);
+  const total = records.length > 0
+    ? records.length
+    : Number(game && game.total_clues) > 0
+      ? Number(game.total_clues)
+      : 12;
+
   const items = [];
-  for (let clueId = 12; clueId >= 1; clueId -= 1) {
+  for (let index = total - 1; index >= 0; index -= 1) {
+    const record = records[index] || null;
+    const clueId = getClueIdFromRecord(record, index + 1);
+
     items.push(`
       <article class="ww-list-card" data-clue="${clueId}">
         <div class="ww-list-row">
           <div class="ww-list-thumb">
-            <img src="${clueDisplayImageUrl(clueId)}" alt="Clue ${escapeHtml(clueDisplayName(clueId))}">
+            <img src="${clueDisplayImageUrl(clueId)}" alt="Clue ${escapeHtml(clueDisplayName(clueId, record))}">
           </div>
           <div class="ww-list-meta">
             <div class="ww-list-copy">
               <div class="ww-kicker">CLUE</div>
-              <div class="ww-list-title">${escapeHtml(clueDisplayName(clueId))}</div>
+              <div class="ww-list-title">${escapeHtml(clueDisplayName(clueId, record))}</div>
             </div>
             <div class="ww-open-wrap">
               <button type="button" class="ww-open" data-open-clue="${clueId}">OPEN →</button>
@@ -982,7 +1070,7 @@ function renderClueList(game, clues) {
 
               <nav class="ww-list-side-nav" aria-label="Clue list navigation">
                 <div class="ww-list-side-divider"></div>
-                <button type="button" class="ww-list-side-link">BASE STATION</button>
+                <button type="button" class="ww-list-side-link" data-base-station>BASE STATION</button>
               </nav>
             </div>
           </aside>
@@ -991,7 +1079,7 @@ function renderClueList(game, clues) {
             <div class="ww-list-scroll">
               <div class="ww-list-stack">
                 <div class="ww-list-status">
-                  <span>Week 12 Available</span>
+                  <span>${escapeHtml(`${total} Clue${total === 1 ? "" : "s"} Available`)}</span>
                   <span>All Clues Available</span>
                 </div>
                 ${items.join("")}
@@ -1011,6 +1099,13 @@ function renderClueList(game, clues) {
     });
   });
 
+  const baseButtons = app.querySelectorAll("[data-base-station]");
+  baseButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      renderClueList(game, clues);
+    });
+  });
+
   WW.currentView = { type: "list" };
 }
 
@@ -1019,6 +1114,11 @@ function renderSingleClue(game, clues, clueId) {
   ensureStyles();
 
   const clueIdNum = Number(clueId);
+  if (!Number.isFinite(clueIdNum) || clueIdNum < 1) {
+    showError(`Invalid clue id: ${clueId}`);
+    return;
+  }
+
   const imageUrl = clueImageUrl(clueIdNum);
 
   app.innerHTML = `
@@ -1032,9 +1132,9 @@ function renderSingleClue(game, clues, clueId) {
               </div>
 
               <nav class="ww-mini-textnav" aria-label="Clue navigation">
-                <button type="button" class="ww-mini-textlink">BASE</button>
+                <button type="button" class="ww-mini-textlink" data-go-base>BASE</button>
                 <button type="button" class="ww-mini-textlink" data-go-list data-active="true">CLUES</button>
-                <button type="button" class="ww-mini-textlink">LIFE</button>
+                <button type="button" class="ww-mini-textlink" data-go-life>LIFE</button>
               </nav>
             </div>
           </aside>
@@ -1056,12 +1156,26 @@ function renderSingleClue(game, clues, clueId) {
     });
   });
 
+  const baseButtons = app.querySelectorAll("[data-go-base]");
+  baseButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      renderClueList(game, clues);
+    });
+  });
+
+  const lifeButtons = app.querySelectorAll("[data-go-life]");
+  lifeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      renderClueList(game, clues);
+    });
+  });
+
   WW.currentView = { type: "clue", clueId: clueIdNum };
 }
 
 async function start(boot) {
   try {
-    const normalizedBoot = await loadBootstrap(boot);
+    const normalizedBoot = loadBootstrap(boot);
     const game = await loadGame(normalizedBoot);
     const clues = await loadClues(game);
     const answers = await loadAnswers(game);
@@ -1076,6 +1190,6 @@ async function start(boot) {
     console.log("ENGINE READY");
   } catch (err) {
     console.error("ENGINE ERROR:", err);
-    showError(err && err.message ? err.message : "Engine failed to start");
+    showError(formatErrorMessage("Engine failed to start", err));
   }
 }
