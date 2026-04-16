@@ -1,5 +1,5 @@
 /* ============================================================
-   MODULE: CLUE LIST PAGE
+   MODULE: CLUE LIST PAGE (UPDATED FOR MORE PRESENT PILLS)
    ============================================================ */
 
 function getClueRecords(clues) {
@@ -38,20 +38,34 @@ function renderClueList(game, clues) {
     const clueId = getClueIdFromRecord(record, index + 1);
 
     items.push(`
-<article class="ww-list-card" data-clue="${clueId}">
-  <div class="ww-list-row">
-    <div class="ww-list-thumb">
-      <img src="${clueDisplayImageUrl(clueId)}" alt="Clue ${escapeHtml(clueDisplayName(clueId, record))}">
+<article class="ww-list-card ww-list-card--present" data-clue="${clueId}">
+  <div class="ww-list-row ww-list-row--present">
+
+    <!-- BIGGER, MORE PRESENT IMAGE -->
+    <div class="ww-list-thumb ww-list-thumb--present">
+      <img src="${clueDisplayImageUrl(clueId)}"
+           alt="Clue ${escapeHtml(clueDisplayName(clueId, record))}">
     </div>
-    <div class="ww-list-meta">
-      <div class="ww-list-copy">
-        <div class="ww-kicker">CLUE</div>
-        <div class="ww-list-title">${escapeHtml(clueDisplayName(clueId, record))}</div>
+
+    <!-- CLEANER TEXT BLOCK -->
+    <div class="ww-list-meta ww-list-meta--present">
+      <div class="ww-list-copy ww-list-copy--present">
+        <div class="ww-kicker ww-kicker--present">CLUE</div>
+        <div class="ww-list-title ww-list-title--present">
+          ${escapeHtml(clueDisplayName(clueId, record))}
+        </div>
       </div>
-      <div class="ww-open-wrap">
-        <button type="button" class="ww-open" data-open-clue="${clueId}">OPEN →</button>
+
+      <!-- MORE PREMIUM BUTTON AREA -->
+      <div class="ww-open-wrap ww-open-wrap--present">
+        <button type="button"
+                class="ww-open ww-open--present"
+                data-open-clue="${clueId}">
+          OPEN →
+        </button>
       </div>
     </div>
+
   </div>
 </article>
 `);
@@ -68,10 +82,13 @@ function renderClueList(game, clues) {
           </div>
           <nav class="ww-list-side-nav" aria-label="Clue list navigation">
             <div class="ww-list-side-divider"></div>
-            <button type="button" class="ww-list-side-link" data-base-station>BASE STATION</button>
+            <button type="button" class="ww-list-side-link" data-base-station>
+              BASE STATION
+            </button>
           </nav>
         </div>
       </aside>
+
       <main class="ww-list-main">
         <div class="ww-list-scroll">
           <div class="ww-list-stack">
@@ -79,25 +96,27 @@ function renderClueList(game, clues) {
               <span>${escapeHtml(`${total} Clue${total === 1 ? "" : "s"} Available`)}</span>
               <span>All Clues Available</span>
             </div>
+
             ${items.join("")}
+
           </div>
         </div>
       </main>
+
     </div>
   </div>
 </div>
 `;
 
-  const openButtons = app.querySelectorAll("[data-open-clue]");
-  openButtons.forEach((button) => {
+  /* EVENT BINDINGS */
+  app.querySelectorAll("[data-open-clue]").forEach((button) => {
     button.addEventListener("click", () => {
       const clueId = Number(button.getAttribute("data-open-clue"));
       renderSingleClue(game, clues, clueId);
     });
   });
 
-  const baseButtons = app.querySelectorAll("[data-base-station]");
-  baseButtons.forEach((button) => {
+  app.querySelectorAll("[data-base-station]").forEach((button) => {
     button.addEventListener("click", () => {
       renderClueList(game, clues);
     });
@@ -105,7 +124,6 @@ function renderClueList(game, clues) {
 
   WW.currentView = { type: "list" };
 }
-
 
 
 
