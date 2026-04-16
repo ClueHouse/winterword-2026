@@ -32,7 +32,12 @@ startBootstrap();
 
 async function startBootstrap() {
   try {
-    const boot = await fetchJSON(`${API_BASE}/bootstrap`, { method: "POST" });
+    const boot = await fetchJSON(`${API_BASE}/bootstrap`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ slug: "default" })
+});
+
     await start(boot);
   } catch (err) {
     console.error("BOOTSTRAP ERROR:", err);
