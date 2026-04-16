@@ -1,4 +1,6 @@
 {
   "game": "test",
-  "clues": []
+  "clues": "clues/default.json",
+  "answers": "answers/default.json",
+  "total_clues": 12
 }
