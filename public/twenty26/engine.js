@@ -1172,7 +1172,7 @@ function renderSingleClue(game, clues, clueId) {
 
   WW.currentView = { type: "clue", clueId: clueIdNum };
 }
-
+ 
 async function start(boot) {
   try {
     const normalizedBoot = loadBootstrap(boot);
