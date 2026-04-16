@@ -1,3 +1,8 @@
+
+
+console.log("ENGINE VERSION TEST 1");
+
+
 import { WW_CONFIG } from "./config.js";
 
 const REPO_ROOT = "winterword";
