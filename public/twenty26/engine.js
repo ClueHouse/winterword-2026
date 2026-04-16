@@ -427,8 +427,6 @@ function renderClueList(game, clues) {
    ENGINE CORE (DO NOT TOUCH)
    ============================================================ */
 
-import { WW_CONFIG } from "./config.js";
-
 const REPO_ROOT = "winterword";
 const PUBLIC_ROOT = "/assets/winterword";
 
