@@ -10,8 +10,14 @@ export async function onRequest(context) {
 
   } catch (err) {
     return new Response(
-      JSON.stringify({ error: "Bootstrap failed", details: err.message }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      JSON.stringify({
+        error: "Bootstrap failed",
+        details: err.message
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" }
+      }
     );
   }
 }
