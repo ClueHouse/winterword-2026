@@ -1,14 +1,11 @@
-
 import { WW_CONFIG } from "./config.js";
 
 console.log("ENGINE FILE LOADED");
 
-
-
-
 /* ============================================================
    MODULE: CLUE LIST PAGE
    ============================================================ */
+
 
 function getClueRecords(clues) {
   return Array.isArray(clues) ? clues : [];
