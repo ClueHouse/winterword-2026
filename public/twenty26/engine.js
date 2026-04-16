@@ -1,13 +1,14 @@
 import { WW_CONFIG } from "./config.js";
 
 const REPO_ROOT = "winterword";
-const PUBLIC_ROOT = "/winterword/assets/winterword";
+const PUBLIC_ROOT = "/assets/winterword";
 
 const IMAGE_BASE = `${PUBLIC_ROOT}/images`;
 const AUDIO_BASE = `${PUBLIC_ROOT}/audio`;
 const VIDEO_BASE = `${PUBLIC_ROOT}/videos`;
 const API_BASE   = `${PUBLIC_ROOT}/api`;
 const DATA_BASE  = `${PUBLIC_ROOT}/data`;
+
 
 const APP_STYLE_ID = "ww-engine-styles";
 
