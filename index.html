@@ -17,31 +17,32 @@
 <div data-ww-app-root></div>
 
 <!-- WINTERWORD ENGINE BOOTSTRAP -->
-<script type="module">
-(async () => {
-  try {
-    const res = await fetch("/assets/winterword/api/bootstrap");
-    const data = await res.json();
+<script>
+(function () {
+  fetch("/assets/winterword/api/bootstrap")
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
 
-    if (!data.entry) {
-      document.body.innerText = "Invalid game.";
-      return;
-    }
+      if (!data.entry) {
+        document.body.innerText = "Invalid game.";
+        return;
+      }
 
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = data.entry + "?v=" + Date.now();
+      var script = document.createElement("script");
+      script.type = "module";
+      script.src = data.entry + "?v=" + Date.now();
 
-    script.onload = () => console.log("Engine loaded");
-    script.onerror = () => {
+      script.onload = function () { console.log("Engine loaded"); };
+      script.onerror = function () {
+        document.body.innerText = "Error loading game.";
+      };
+
+      document.body.appendChild(script);
+
+    })
+    .catch(function () {
       document.body.innerText = "Error loading game.";
-    };
-
-    document.body.appendChild(script);
-
-  } catch (err) {
-    document.body.innerText = "Error loading game.";
-  }
+    });
 })();
 </script>
 
