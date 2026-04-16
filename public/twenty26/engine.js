@@ -3,11 +3,11 @@ import { WW_CONFIG } from "./config.js";
 const REPO_ROOT = "winterword";
 const PUBLIC_ROOT = "assets/winterword";
 
-const IMAGE_BASE = "/winterword/assets/winterword/images";
-const AUDIO_BASE = "/winterword/assets/winterword/audio";
-const VIDEO_BASE = "/winterword/assets/winterword/videos";
-const API_BASE   = "/winterword/assets/winterword/api";
-const DATA_BASE  = "/winterword/assets/winterword/data";
+const IMAGE_BASE = `${PUBLIC_ROOT}/images`;
+const AUDIO_BASE = `${PUBLIC_ROOT}/audio`;
+const VIDEO_BASE = `${PUBLIC_ROOT}/videos`;
+const API_BASE   = `${PUBLIC_ROOT}/api`;
+const DATA_BASE  = `${PUBLIC_ROOT}/data`;
 
 const APP_STYLE_ID = "ww-engine-styles";
 
@@ -80,9 +80,8 @@ function normalizeAssetPath(inputPath, fallbackType) {
   const lower = clean.toLowerCase();
 
   if (lower.startsWith("assets/winterword/")) {
-    return `/${clean}`;
+    return `/winterword/${clean}`;
   }
-
   if (lower.startsWith("images/")) {
     return joinPath(IMAGE_BASE, clean.slice("images/".length));
   }
