@@ -4,3 +4,4 @@ export async function onRequest(context) {
     message: "bootstrap alive"
   });
 }
+ 
