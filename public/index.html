@@ -7,35 +7,6 @@
 </head>
 <body>
   <div id="app">Loading…</div>
-
-  <script>
-    (function () {
-      fetch("/winterword/assets/winterword/api/bootstrap")
-        .then(function(res) { return res.json(); })
-        .then(function(data) {
-
-          if (!data.entry) {
-            document.body.innerText = "Invalid game.";
-            return;
-          }
-
-          var script = document.createElement("script");
-          script.type = "module";
-          script.src = data.entry + "?v=" + Date.now();
-
-          script.onload = function () { console.log("Engine loaded"); };
-          script.onerror = function () {
-            document.body.innerText = "Error loading game.";
-          };
-
-          document.body.appendChild(script);
-
-        })
-        .catch(function () {
-          document.body.innerText = "Error loading game.";
-        });
-    })();
-  </script>
-
+  <script type="module" src="/winterword/twenty26/engine.js?v=1"></script>
 </body>
 </html>
