@@ -1187,16 +1187,201 @@ function renderBaseStation(game, clues) {
 
   app.innerHTML = `
     <div class="ww-page">
-      <div class="ww-empty">
-        BASE STATION
+      <div class="ww-shell">
+        <div class="ww-list-frame">
+          <aside class="ww-list-sidebar">
+            <div class="ww-list-sidebar-inner">
+              <div class="ww-list-logo">
+                <img src="${logoUrl()}" alt="WinterWord">
+              </div>
+              <nav class="ww-list-side-nav" aria-label="Base Station navigation">
+                <div class="ww-list-side-divider"></div>
+                <button type="button" class="ww-list-side-link" data-go-clues>CLUES</button>
+                <button type="button" class="ww-list-side-link" data-go-life>LIFELINE</button>
+                <button type="button" class="ww-list-side-link" data-go-leader>LEADER</button>
+              </nav>
+            </div>
+          </aside>
+          <main class="ww-list-main">
+            <div class="ww-list-scroll">
+              <div class="ww-list-stack" style="gap:1.6rem; max-width:780px;">
+                <header>
+                  <div class="ww-kicker" style="margin-bottom:.35rem;">WinterWord • — 2026</div>
+                  <h1 style="
+                    margin:0 0 .9rem;
+                    font-size:1.9rem;
+                    letter-spacing:.18em;
+                    text-transform:uppercase;
+                  ">BASE STATION</h1>
+                  <p style="
+                    margin:.1rem 0 .4rem;
+                    font-size:.98rem;
+                    line-height:1.6;
+                    color:var(--ww-ink-strong);
+                    font-style:italic;
+                  ">
+                    A letter per week from a wintry scroll,<br>
+                    Piece them together — reveal the whole.
+                  </p>
+                </header>
 
-        (Placeholder page – now activated)
+                <section>
+                  <h2 style="
+                    margin:0 0 .4rem;
+                    font-size:.86rem;
+                    letter-spacing:.22em;
+                    text-transform:uppercase;
+                    color:var(--ww-muted);
+                  ">HOW THIS WORKS</h2>
+                  <p style="
+                    margin:.1rem 0 .6rem;
+                    font-size:.95rem;
+                    line-height:1.7;
+                    color:var(--ww-ink);
+                  ">
+                    Each week, a new clue will quietly unlock — each one revealing a single letter.
+                    Guard your answers, for as the season unfolds, they will begin to shift and settle...
+                    forming the anagram of the <em>Winterword.</em>
+                  </p>
+                  <p style="
+                    margin:.1rem 0 .6rem;
+                    font-size:.95rem;
+                    line-height:1.7;
+                    color:var(--ww-ink);
+                  ">
+                    If you feel the answer stirring early, step forward and claim your place on the leaderboard.
+                    But remember — one guess is all you get.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 style="
+                    margin:0 0 .4rem;
+                    font-size:.86rem;
+                    letter-spacing:.22em;
+                    text-transform:uppercase;
+                    color:var(--ww-muted);
+                  ">UPDATES</h2>
+                  <p style="
+                    margin:.1rem 0 .4rem;
+                    font-size:.9rem;
+                    line-height:1.6;
+                    color:var(--ww-muted);
+                  ">
+                    Loading...
+                  </p>
+                </section>
+
+                <section>
+                  <h2 style="
+                    margin:0 0 .4rem;
+                    font-size:.86rem;
+                    letter-spacing:.22em;
+                    text-transform:uppercase;
+                    color:var(--ww-muted);
+                  ">THE LAST WORD</h2>
+                  <p style="
+                    margin:.1rem 0 .6rem;
+                    font-size:.95rem;
+                    line-height:1.7;
+                    color:var(--ww-ink-strong);
+                  ">
+                    When the wind quietens, certainty stirs
+                  </p>
+                </section>
+
+                <section style="margin-top:.4rem;">
+                  <h2 style="
+                    margin:0 0 .4rem;
+                    font-size:.86rem;
+                    letter-spacing:.22em;
+                    text-transform:uppercase;
+                    color:var(--ww-muted);
+                  ">SOLVE WINTERWORD</h2>
+                  <p style="
+                    margin:.1rem 0 .6rem;
+                    font-size:.95rem;
+                    line-height:1.7;
+                    color:var(--ww-ink);
+                  ">
+                    One word.<br>
+                    One chance.<br>
+                    Guess wrong, and the silence wins.
+                  </p>
+                </section>
+
+                <section style="
+                  display:flex;
+                  flex-wrap:wrap;
+                  gap:.7rem;
+                  margin-top:.4rem;
+                ">
+                  <button type="button" class="ww-open" data-signal>
+                    SIGNAL
+                  </button>
+                  <button type="button" class="ww-open" data-report>
+                    REPORT A PROBLEM
+                  </button>
+                  <button type="button" class="ww-open" data-subscribe>
+                    SUBSCRIBE
+                  </button>
+                </section>
+              </div>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   `;
 
+  // Nav wiring
+  const cluesButtons = app.querySelectorAll("[data-go-clues]");
+  cluesButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      renderClueList(game, clues);
+    });
+  });
+
+  const lifeButtons = app.querySelectorAll("[data-go-life]");
+  lifeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      renderLife(game, clues);
+    });
+  });
+
+  const leaderButtons = app.querySelectorAll("[data-go-leader]");
+  leaderButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      // For now, just go to answers / placeholder
+      renderAnswers(game, WW.answers);
+    });
+  });
+
+  // Action buttons (no-op placeholders for now)
+  const signalButtons = app.querySelectorAll("[data-signal]");
+  signalButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      alert("Signal sent (placeholder).");
+    });
+  });
+
+  const reportButtons = app.querySelectorAll("[data-report]");
+  reportButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      alert("Report a problem (placeholder).");
+    });
+  });
+
+  const subscribeButtons = app.querySelectorAll("[data-subscribe]");
+  subscribeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      alert("Subscribe (placeholder).");
+    });
+  });
+
   WW.currentView = { type: "base" };
 }
+
 
 /* -------------------------------------------------------
  * RENDER: LIFE PAGE
